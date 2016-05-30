@@ -1,0 +1,1 @@
+ const unsigned char Pods_mapTest3VersionString[] __attribute__ ((used)) = "@(#)PROGRAM:Pods_mapTest3  PROJECT:Pods-1" "\n"; const double Pods_mapTest3VersionNumber __attribute__ ((used)) = (double)1.;

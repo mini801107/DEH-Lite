@@ -10,7 +10,6 @@ import UIKit
 import MapKit
 import CoreLocation //for current location
 import Foundation
-import CryptoSwift
 import Alamofire
 
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIGestureRecognizerDelegate, UIPickerViewDataSource, UIPickerViewDelegate
@@ -21,6 +20,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     let locationManager = CLLocationManager()
     var currentLocation = CLLocation()
+    var distance : Int = 3000
+    var filteredString = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +47,15 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         self.mapView.addGestureRecognizer(lpgr)
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowPOISegue"
+        {
+            if let destinationVC = segue.destinationViewController as? TableViewController {
+                destinationVC.filteredString = self.filteredString
+            }
+        }
+    }
+    
 //    override func didReceiveMemoryWarning() {
 //        super.didReceiveMemoryWarning()
 //        // Dispose of any resources that can be recreated.
@@ -71,6 +81,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     @IBAction func distanceSliderChanged(sender: AnyObject) {
         let currentValue = Int(distanceSlider.value)
+        self.distance = currentValue*1000
         distanceValueText.text = "Searching radius (0-10km) : "+"\(currentValue)"
     }
     @IBAction func searchOptions(sender: AnyObject) {
@@ -86,96 +97,33 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         var url = nearby_poi_aes_function + "?"
         url += ("lat=" + "\(currentLocation.coordinate.latitude)")
         url += ("&lng=" + "\(currentLocation.coordinate.longitude)")
-        url += ("&dist=" + "1000")
+        url += ("&dist=" + "\(distance)")
         url += ("&userlat=" + "\(currentLocation.coordinate.latitude)")
         url += ("&userlng=" + "\(currentLocation.coordinate.longitude)")
-       
-        let url2 = "http://deh.csie.ncku.edu.tw/dehencode/json/nearbyPOIs_AES.php?lat=22.9971675355331&lng=120.221438673254&dist=10000.0&num=50&userlat=22.9971675355331&userlng=120.221438673254&clang=en"
         
         /* Send HTTP GET request */
         Alamofire.request(.GET, url)
-            //.validate()
+            .validate()
             .responseString { responseData  in
                 let getData = responseData.result.value!
-                let decodedData = getData.stringByReplacingOccurrencesOfString("\r\n", withString: "")
-               
+                
                 Alamofire.request(.GET, client_ip)
-                .validate()
-                .responseString(){ responseIp in
-                    let getIp = String(responseIp.result.value!)
-                    let IpArr = getIp.componentsSeparatedByString(".")
-                    let key:[UInt8] = [UInt8(IpArr[0])!, UInt8(IpArr[1])!, UInt8(IpArr[2])!, UInt8(IpArr[3])!,
-                                       UInt8(IpArr[3])!, UInt8(IpArr[2])!, UInt8(IpArr[1])!, UInt8(IpArr[0])!,
-                                       UInt8(IpArr[1])!, UInt8(IpArr[3])!, UInt8(IpArr[0])!, UInt8(IpArr[2])!,
-                                       UInt8(IpArr[2])!, UInt8(IpArr[1])!, UInt8(IpArr[0])!, UInt8(IpArr[3])!]
-                    
-                    let keyData = NSData(bytes: key as [UInt8], length:16)
-                    let k = AESCrypt.genarateKEYFromIP(getIp)
-                    print("keyData = \(keyData)")
-                    //let iv = "DEH2014@CSIENCKU"
-                    let decrypted = AESCrypt.decrypt(getData, password: k)
-                    //print(getData)
-                    print("decrypted = \(decrypted)")
-                    
-                    //let decrypted = try! decodedData.decrypt(AES(key: key, iv: iv))
-                    //let decrypted = try! decodedData.decryptBase64ToString(AES(key: key, iv: iv))
-                    //let decrypted = try! decodedData.aesDecrypt(key, iv: iv)
-                    
-                    //print("dec:\(decrypted)")
-                    //print("\(key)\nlength = \(key.characters.count)")
+                    .validate()
+                    .responseString(){ responseIp in
+                        let getIp = String(responseIp.result.value!)
+                        let IpArr = getIp.componentsSeparatedByString(".")
+                        let key:[UInt8] = [UInt8(IpArr[0])!, UInt8(IpArr[1])!, UInt8(IpArr[2])!, UInt8(IpArr[3])!,
+                            UInt8(IpArr[3])!, UInt8(IpArr[2])!, UInt8(IpArr[1])!, UInt8(IpArr[0])!,
+                            UInt8(IpArr[1])!, UInt8(IpArr[3])!, UInt8(IpArr[0])!, UInt8(IpArr[2])!,
+                            UInt8(IpArr[2])!, UInt8(IpArr[1])!, UInt8(IpArr[0])!, UInt8(IpArr[3])!]
+                        
+                        let keyData = NSData(bytes: key as [UInt8], length:16)
+                        let decrypted = AESCrypt.decrypt(getData, password: keyData)
+                        self.filteredString = AESCrypt.contentFilter(decrypted)
+                        self.performSegueWithIdentifier("ShowPOISegue", sender: sender)
                 }
         }
     }
-        
-//        let myURL = NSURL(string: url)
-//        let request = NSMutableURLRequest(URL: myURL!)
-//        request.HTTPMethod = "GET"
-//        
-//        var encryptedData = NSData()
-//        var decodedString = NSString()
-//        let task = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
-//            if error != nil
-//            {
-//                print("error = \(error)")
-//                return
-//            }
-//            encryptedData = data!
-//            decodedString = NSString(data: data!, encoding: NSUTF8StringEncoding)!
-//            decodedString = decodedString.stringByReplacingOccurrencesOfString("\r\n", withString: "")
-//            //print("\ntextFormWeb = \(decodedString)")
-//
-//        })
-//        task.resume()
-//        
-//        //get IP for key
-//        let myURL_ip = NSURL(string: client_ip)
-//        let request_ip = NSMutableURLRequest(URL: myURL_ip!)
-//        request_ip.HTTPMethod = "GET"
-//        
-//        var ipString = NSString()
-//        var ipStringArr = Array<String>()
-//        let task_ip = NSURLSession.sharedSession().dataTaskWithRequest(request_ip, completionHandler: {data, response, error -> Void in
-//            if error != nil
-//            {
-//                print("error = \(error)")
-//                return
-//            }
-//            ipString = NSString(data: data!, encoding: NSUTF8StringEncoding)!
-//            print("ipString = \(ipString)")
-//            ipStringArr = ipString.componentsSeparatedByString(".")
-//            print("\n\n\(ipStringArr)")
-//        })
-//        task_ip.resume()
-//        
-//        print("\n\n\(ipStringArr)")
-//        let key = String(ipString)
-//        let iv = "DEH2014@CSIENCKU"
-        //let data = String(decodedString)
-        //let dec = try! data.aesDecrypt(key, iv: iv)
-        //let decrypted = try! data.decryptBase64ToString(AES(key: key, iv: iv, blockMode: .CBC, padding: NoPadding()))
-        //let decrypted = try! encryptedData.decrypt(AES(key: key, iv: iv))
-        //print("dec:\(decrypted)") // string to encrypt
-//    }
     
     // MARK : - Location Delegate Methods
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
@@ -224,25 +172,4 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
 
 }
-
-extension String {
-    func aesEncrypt(key: String, iv: String) throws -> String{
-        let data = self.dataUsingEncoding(NSUTF8StringEncoding)
-        let enc = try AES(key: key, iv: iv, blockMode:.CBC).encrypt(data!.arrayOfBytes())
-        let encData = NSData(bytes: enc, length: Int(enc.count))
-        let base64String: String = encData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0));
-        let result = String(base64String)
-        return result
-    }
-    func aesDecrypt(key: String, iv: String) throws -> String {
-        let data = NSData(base64EncodedString: self, options: NSDataBase64DecodingOptions(rawValue: 0))
-        let dec = try AES(key: key, iv: iv, blockMode:.CBC).decrypt(data!.arrayOfBytes())
-        let decData = NSData(bytes: dec, length: Int(dec.count))
-        print(decData)
-        let result = String(data: decData, encoding: NSUTF8StringEncoding)
-        return String(result)
-    }
-}
-
-
 

@@ -34,5 +34,5 @@
 + (NSString *)encrypt:(NSString *)message password:(NSString *)password;
 + (NSString *)decrypt:(NSString *)base64EncodedString password:(NSData *)password;
 + (NSData *)genarateKEYFromIP:(NSString *)IP;
-
++ (NSString *)contentFilter:(NSString *)responseString;
 @end

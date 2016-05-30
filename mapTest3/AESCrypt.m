@@ -59,5 +59,19 @@
     return data;
 }
 
++ (NSString *)contentFilter:(NSString *)responseString {
+    responseString = [responseString stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    //responseString = [responseString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    responseString = [responseString stringByReplacingOccurrencesOfString:@"\%" withString:@"％"];
+    responseString = [responseString stringByReplacingOccurrencesOfString:@"\\\"" withString:@""];
+    responseString = [responseString stringByReplacingOccurrencesOfString:@"\\" withString:@" "];
+    responseString = [responseString stringByReplacingOccurrencesOfString:@"\t" withString:@" "];
+    responseString = [responseString stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    responseString = [responseString stringByTrimmingCharactersInSet:[NSCharacterSet controlCharacterSet]];
+    return responseString;
+    
+    //  NSData *data = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    //  return data;
+}
 
 @end

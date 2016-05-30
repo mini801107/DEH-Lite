@@ -475,6 +475,8 @@ static void FixKeyLengths( CCAlgorithm algorithm, NSMutableData * keyData, NSMut
 	CCCryptorRef cryptor = NULL;
 	CCCryptorStatus status = kCCSuccess;
 	
+    iv = @"DEH2014@CSIENCKU";
+    
 	NSParameterAssert([key isKindOfClass: [NSData class]] || [key isKindOfClass: [NSString class]]);
 	NSParameterAssert(iv == nil || [iv isKindOfClass: [NSData class]] || [iv isKindOfClass: [NSString class]]);
 	

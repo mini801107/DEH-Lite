@@ -1,0 +1,6 @@
+framework module Pods_mapTest3 {
+  umbrella header "Pods-mapTest3-umbrella.h"
+
+  export *
+  module * { export * }
+}

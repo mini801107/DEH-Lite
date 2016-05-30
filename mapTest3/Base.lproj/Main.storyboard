@@ -6,7 +6,6 @@
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -132,28 +131,16 @@
                     </view>
                     <navigationItem key="navigationItem" id="wn9-pE-4sQ">
                         <nil key="title"/>
-                        <rightBarButtonItems>
-                            <barButtonItem id="zpq-lF-cEI">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kqD-M5-mip">
-                                    <rect key="frame" x="523" y="5" width="57" height="34"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Search"/>
-                                    <connections>
-                                        <action selector="searchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oRY-iU-jmU"/>
-                                    </connections>
-                                </button>
-                            </barButtonItem>
-                            <barButtonItem id="ENq-AI-U5W">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="YkP-Vx-Wd8">
-                                    <rect key="frame" x="382" y="7" width="133" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Locate"/>
-                                    <connections>
-                                        <action selector="searchOptions:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R8U-q2-JMu"/>
-                                    </connections>
-                                </button>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" id="ENq-AI-U5W">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="YkP-Vx-Wd8">
+                                <rect key="frame" x="447" y="7" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Locate"/>
+                                <connections>
+                                    <action selector="searchOptions:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R8U-q2-JMu"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="distanceSlider" destination="9yZ-Ie-Vri" id="oNC-UD-AIz"/>
@@ -161,11 +148,29 @@
                         <outlet property="locationSelector" destination="aH9-pY-FIt" id="Skz-tX-OtU"/>
                         <outlet property="mapView" destination="eMf-GE-LIq" id="6hQ-8y-xzY"/>
                         <outlet property="optionsWindow" destination="IXZ-oj-ThC" id="Ywm-w7-H8s"/>
+                        <segue destination="PaK-rQ-pUD" kind="show" identifier="ShowPOISegue" id="B7F-eH-zse"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1200" y="274"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="YSj-rL-hoR">
+            <objects>
+                <viewController id="PaK-rQ-pUD" customClass="TableViewController" customModule="mapTest3" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="B2N-Z0-13q">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tableView>
+                    <connections>
+                        <outlet property="POItable" destination="B2N-Z0-13q" id="4R1-dm-bRA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0i8-rL-hgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1905" y="273"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hZu-Wv-M6L">
