@@ -7,17 +7,30 @@
 //
 
 import UIKit
+import CoreLocation
+import SwiftyJSON
+
+//protocol POISelectionDelegate: class {
+//    func POISelected(POIinfo: JSON)
+//}
 
 class MasterViewController: UITableViewController {
 
+//    weak var delegate: POISelectionDelegate?
+    var ListArray = Array<String>()
+    var dataArray = Array<JSON>()
+    var mapVC = MapViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        //let topNavigationVC = splitViewController?.viewControllers[0] as! UINavigationController
+        let downNavigationVC = splitViewController?.viewControllers[1] as! UINavigationController
+        
+        //let masterVC = topNavigationVC.topViewController as! MasterViewController
+        mapVC = downNavigationVC.topViewController as! MapViewController
+        mapVC.delegate = self
+       
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,26 +39,26 @@ class MasterViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return ListArray.count
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
+        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+        cell.textLabel!.text = ListArray[indexPath.row]
+        //let selectedPOI = self.dataArray[indexPath.row]
+        //self.delegate?.POISelected(selectedPOI)
+        
         return cell
     }
-    */
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+         mapVC.selectedPOIfromtable(indexPath.row)
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -93,3 +106,19 @@ class MasterViewController: UITableViewController {
     */
 
 }
+
+extension MasterViewController: POIgetDelegate {
+    func POIget(JSONString: String) {
+        let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonObj = JSON(data: JSONData!)
+        let dataArray = jsonObj["results"].arrayValue
+        for i in 0 ..< dataArray.count  {
+            ListArray.append(dataArray[i]["POI_title"].stringValue)
+        }
+        tableView.reloadData()
+    }
+
+}
+
+
+

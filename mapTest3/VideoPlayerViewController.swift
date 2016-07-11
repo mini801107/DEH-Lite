@@ -7,13 +7,22 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class VideoPlayerViewController: AVPlayerViewController {
 
+    var fileURL: NSURL?
+    var videoPlayer = AVPlayer()
+    var playerLayer: AVPlayerLayer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .blackColor()
+        videoPlayer = AVPlayer(URL: fileURL!)
+        self.player = videoPlayer
+        self.showsPlaybackControls = true
+        self.view.frame = CGRectMake(0, 0, self.view.bounds.width-320, self.view.bounds.height)
     }
 
     override func didReceiveMemoryWarning() {

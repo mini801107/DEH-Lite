@@ -48,9 +48,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ShowPOISegue"
-        {
-            if let destinationVC = segue.destinationViewController as? TableViewController {
+        if segue.identifier == "ShowPOISegue" {
+            if let destinationVC = segue.destinationViewController as? ContainerViewController {
                 destinationVC.filteredString = self.filteredString
             }
         }
