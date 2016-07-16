@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import SwiftyJSON
+import Alamofire
 import AlamofireImage
 import AVFoundation
 import AVKit
@@ -21,15 +22,16 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet weak var TitleLabel: UILabel!
     @IBOutlet weak var AddressLabel: UILabel!
     @IBOutlet weak var DescriptionLabel: UILabel!
-    
+
     var POIinfo: JSON = nil
     var audioPlayer = AVAudioPlayer()
     var audioIsPlaying: Bool = false
     var file_url : NSURL?
+    private var ready = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         TitleLabel.text = POIinfo["POI_title"].stringValue
         AddressLabel.text = POIinfo["POI_address"].stringValue
         DescriptionLabel.text = POIinfo["POI_description"].stringValue

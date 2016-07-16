@@ -112,8 +112,22 @@ extension MasterViewController: POIgetDelegate {
         let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
         let jsonObj = JSON(data: JSONData!)
         let dataArray = jsonObj["results"].arrayValue
+        
+        ListArray.removeAll()
         for i in 0 ..< dataArray.count  {
             ListArray.append(dataArray[i]["POI_title"].stringValue)
+        }
+        tableView.reloadData()
+    }
+    
+    func LOIget(JSONString: String) {
+        let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonObj = JSON(data: JSONData!)
+        let dataArray = jsonObj["results"].arrayValue
+        
+        ListArray.removeAll()
+        for i in 0 ..< dataArray.count  {
+            ListArray.append(dataArray[i]["routetitle"].stringValue)
         }
         tableView.reloadData()
     }

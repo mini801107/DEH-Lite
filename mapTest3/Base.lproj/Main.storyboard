@@ -265,7 +265,7 @@
             </objects>
             <point key="canvasLocation" x="3469" y="-213"/>
         </scene>
-        <!--POI list-->
+        <!--景點/景線/景區列表-->
         <scene sceneID="Lgx-6C-toI">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="yaN-fH-Hto" customClass="MasterViewController" customModule="mapTest3" customModuleProvider="target" sceneMemberID="viewController">
@@ -297,7 +297,7 @@
                             <outlet property="delegate" destination="yaN-fH-Hto" id="Cnm-R5-83o"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="POI list" id="hCl-k0-nPP"/>
+                    <navigationItem key="navigationItem" title="景點/景線/景區列表" id="hCl-k0-nPP"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MCi-Qv-0o8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
