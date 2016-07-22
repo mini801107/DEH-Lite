@@ -10,23 +10,17 @@ import UIKit
 import CoreLocation
 import SwiftyJSON
 
-//protocol POISelectionDelegate: class {
-//    func POISelected(POIinfo: JSON)
-//}
-
 class MasterViewController: UITableViewController {
 
-//    weak var delegate: POISelectionDelegate?
     var ListArray = Array<String>()
     var dataArray = Array<JSON>()
     var mapVC = MapViewController()
+    var searchingType = "景點"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //let topNavigationVC = splitViewController?.viewControllers[0] as! UINavigationController
         let downNavigationVC = splitViewController?.viewControllers[1] as! UINavigationController
         
-        //let masterVC = topNavigationVC.topViewController as! MasterViewController
         mapVC = downNavigationVC.topViewController as! MapViewController
         mapVC.delegate = self
        
@@ -50,13 +44,20 @@ class MasterViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         cell.textLabel!.text = ListArray[indexPath.row]
-        //let selectedPOI = self.dataArray[indexPath.row]
-        //self.delegate?.POISelected(selectedPOI)
         
         return cell
     }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-         mapVC.selectedPOIfromtable(indexPath.row)
+        if searchingType == "景點" {
+            mapVC.selectedPOIfromtable(indexPath.row)
+        }
+        else if searchingType == "景線" {
+            mapVC.selectedLOIfromtable(indexPath.row)
+        }
+        else if searchingType == "景區" {
+            mapVC.selectedAOIfromtable(indexPath.row)
+        }
     }
     
 
@@ -108,7 +109,8 @@ class MasterViewController: UITableViewController {
 }
 
 extension MasterViewController: POIgetDelegate {
-    func POIget(JSONString: String) {
+    func POIget(JSONString: String, searchType: String) {
+        self.searchingType = searchType
         let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
         let jsonObj = JSON(data: JSONData!)
         let dataArray = jsonObj["results"].arrayValue
@@ -120,7 +122,8 @@ extension MasterViewController: POIgetDelegate {
         tableView.reloadData()
     }
     
-    func LOIget(JSONString: String) {
+    func LOIget(JSONString: String, searchType: String) {
+        self.searchingType = searchType
         let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
         let jsonObj = JSON(data: JSONData!)
         let dataArray = jsonObj["results"].arrayValue
@@ -132,6 +135,18 @@ extension MasterViewController: POIgetDelegate {
         tableView.reloadData()
     }
 
+    func AOIget(JSONString: String, searchType: String) {
+        self.searchingType = searchType
+        let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
+        let jsonObj = JSON(data: JSONData!)
+        let dataArray = jsonObj["results"].arrayValue
+        
+        ListArray.removeAll()
+        for i in 0 ..< dataArray.count  {
+            ListArray.append(dataArray[i]["title"].stringValue)
+        }
+        tableView.reloadData()
+    }
 }
 
 

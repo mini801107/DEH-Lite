@@ -21,7 +21,8 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var TitleLabel: UILabel!
     @IBOutlet weak var AddressLabel: UILabel!
-    @IBOutlet weak var DescriptionLabel: UILabel!
+    //@IBOutlet weak var DescriptionLabel: UILabel!
+    @IBOutlet weak var DescriptionLabel: UITextView!
 
     var POIinfo: JSON = nil
     var audioPlayer = AVAudioPlayer()

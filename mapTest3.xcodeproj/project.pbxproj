@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7A1EC0E4A772DAE59E802F8C /* Pods_mapTest3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1213F8BE449DDAC9A1C1BA6 /* Pods_mapTest3.framework */; };
+		A045A66F1D3B555200868E69 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A045A66E1D3B555200868E69 /* InfoViewController.swift */; };
 		A0479B181CEDE584002AD304 /* AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = A0479B111CEDE584002AD304 /* AESCrypt.m */; };
 		A0479B191CEDE584002AD304 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = A0479B131CEDE584002AD304 /* NSData+Base64.m */; };
 		A0479B1A1CEDE584002AD304 /* NSData+CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = A0479B151CEDE584002AD304 /* NSData+CommonCrypto.m */; };
@@ -15,15 +16,14 @@
 		A04E73221D2E568800707972 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04E73211D2E568700707972 /* VideoPlayerViewController.swift */; };
 		A050C8471D22573C008DB5F0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A050C8461D22573C008DB5F0 /* DetailViewController.swift */; };
 		A050DF341D0533F300A13B07 /* POI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A050DF331D0533F300A13B07 /* POI.swift */; };
+		A0599E0B1D41EEF600A072BF /* SendHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0599E0A1D41EEF600A072BF /* SendHttpRequest.swift */; };
 		A0644D9E1D01B52F0038C549 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0644D9D1D01B52F0038C549 /* MapViewController.swift */; };
 		A0650F971D31E7A900CF2DAE /* video_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0650F951D31E7A900CF2DAE /* video_icon.png */; };
 		A0650F981D31E7A900CF2DAE /* audio_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0650F961D31E7A900CF2DAE /* audio_icon.png */; };
 		A066E5471CFBF2B800C6EEB5 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A066E5461CFBF2B800C6EEB5 /* TableViewController.swift */; };
 		A06F05271CFE926A006051E4 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06F05261CFE926A006051E4 /* MasterViewController.swift */; };
 		A06F05371CFE9CB8006051E4 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06F05361CFE9CB8006051E4 /* SplitViewController.swift */; };
-		A06F05391CFEB481006051E4 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06F05381CFEB481006051E4 /* ContainerViewController.swift */; };
 		A0833AE51CD9C6D600A83BFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0833AE41CD9C6D600A83BFE /* AppDelegate.swift */; };
-		A0833AE71CD9C6D600A83BFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0833AE61CD9C6D600A83BFE /* ViewController.swift */; };
 		A0833AEA1CD9C6D600A83BFE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0833AE81CD9C6D600A83BFE /* Main.storyboard */; };
 		A0833AEC1CD9C6D600A83BFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0833AEB1CD9C6D600A83BFE /* Assets.xcassets */; };
 		A0833AEF1CD9C6D600A83BFE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0833AED1CD9C6D600A83BFE /* LaunchScreen.storyboard */; };
@@ -151,6 +151,7 @@
 /* Begin PBXFileReference section */
 		4A38F78E9CF8EB97AE6D47AF /* Pods-mapTest3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapTest3.release.xcconfig"; path = "Pods/Target Support Files/Pods-mapTest3/Pods-mapTest3.release.xcconfig"; sourceTree = "<group>"; };
 		A0431D711CEABD910006239F /* mapTest3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mapTest3-Bridging-Header.h"; sourceTree = "<group>"; };
+		A045A66E1D3B555200868E69 /* InfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		A0479B101CEDE584002AD304 /* AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESCrypt.h; sourceTree = "<group>"; };
 		A0479B111CEDE584002AD304 /* AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESCrypt.m; sourceTree = "<group>"; };
 		A0479B121CEDE584002AD304 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
@@ -163,16 +164,15 @@
 		A050C8461D22573C008DB5F0 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		A050DF331D0533F300A13B07 /* POI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POI.swift; sourceTree = "<group>"; };
 		A053F4261CF2EDFC004C9EBA /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		A0599E0A1D41EEF600A072BF /* SendHttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendHttpRequest.swift; sourceTree = "<group>"; };
 		A0644D9D1D01B52F0038C549 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		A0650F951D31E7A900CF2DAE /* video_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_icon.png; sourceTree = "<group>"; };
 		A0650F961D31E7A900CF2DAE /* audio_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio_icon.png; sourceTree = "<group>"; };
 		A066E5461CFBF2B800C6EEB5 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		A06F05261CFE926A006051E4 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		A06F05361CFE9CB8006051E4 /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
-		A06F05381CFEB481006051E4 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		A0833AE11CD9C6D600A83BFE /* mapTest3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mapTest3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0833AE41CD9C6D600A83BFE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A0833AE61CD9C6D600A83BFE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A0833AE91CD9C6D600A83BFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A0833AEB1CD9C6D600A83BFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0833AEE1CD9C6D600A83BFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -275,14 +275,14 @@
 				A0833AE41CD9C6D600A83BFE /* AppDelegate.swift */,
 				A0833AE81CD9C6D600A83BFE /* Main.storyboard */,
 				A050DF331D0533F300A13B07 /* POI.swift */,
-				A06F05381CFEB481006051E4 /* ContainerViewController.swift */,
+				A0599E0A1D41EEF600A072BF /* SendHttpRequest.swift */,
 				A06F05361CFE9CB8006051E4 /* SplitViewController.swift */,
 				A06F05261CFE926A006051E4 /* MasterViewController.swift */,
 				A066E5461CFBF2B800C6EEB5 /* TableViewController.swift */,
 				A0644D9D1D01B52F0038C549 /* MapViewController.swift */,
 				A050C8461D22573C008DB5F0 /* DetailViewController.swift */,
+				A045A66E1D3B555200868E69 /* InfoViewController.swift */,
 				A04E73211D2E568700707972 /* VideoPlayerViewController.swift */,
-				A0833AE61CD9C6D600A83BFE /* ViewController.swift */,
 				A0833AEB1CD9C6D600A83BFE /* Assets.xcassets */,
 				A0833AED1CD9C6D600A83BFE /* LaunchScreen.storyboard */,
 				A0833AF01CD9C6D600A83BFE /* Info.plist */,
@@ -613,14 +613,14 @@
 				A050C8471D22573C008DB5F0 /* DetailViewController.swift in Sources */,
 				A06F05271CFE926A006051E4 /* MasterViewController.swift in Sources */,
 				A0479B1B1CEDE584002AD304 /* NSString+Base64.m in Sources */,
+				A0599E0B1D41EEF600A072BF /* SendHttpRequest.swift in Sources */,
 				A04E73221D2E568800707972 /* VideoPlayerViewController.swift in Sources */,
-				A06F05391CFEB481006051E4 /* ContainerViewController.swift in Sources */,
 				A066E5471CFBF2B800C6EEB5 /* TableViewController.swift in Sources */,
-				A0833AE71CD9C6D600A83BFE /* ViewController.swift in Sources */,
 				A06F05371CFE9CB8006051E4 /* SplitViewController.swift in Sources */,
 				A0644D9E1D01B52F0038C549 /* MapViewController.swift in Sources */,
 				A0479B191CEDE584002AD304 /* NSData+Base64.m in Sources */,
 				A0479B1A1CEDE584002AD304 /* NSData+CommonCrypto.m in Sources */,
+				A045A66F1D3B555200868E69 /* InfoViewController.swift in Sources */,
 				A0479B181CEDE584002AD304 /* AESCrypt.m in Sources */,
 				A050DF341D0533F300A13B07 /* POI.swift in Sources */,
 				A0833AE51CD9C6D600A83BFE /* AppDelegate.swift in Sources */,
