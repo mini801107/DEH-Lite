@@ -31,6 +31,8 @@
 		A0833B051CD9C6D700A83BFE /* mapTest3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0833B041CD9C6D700A83BFE /* mapTest3UITests.swift */; };
 		A0D4A9801CE097C70057F891 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0D4A96F1CE095A00057F891 /* Alamofire.framework */; };
 		A0D4A9811CE097C70057F891 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A0D4A96F1CE095A00057F891 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A0FD11EF1D4DCEC500A6B1FC /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = A0FD11ED1D4DCEC500A6B1FC /* pin.png */; };
+		A0FD11F01D4DCEC500A6B1FC /* pin2.png in Resources */ = {isa = PBXBuildFile; fileRef = A0FD11EE1D4DCEC500A6B1FC /* pin2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +186,8 @@
 		A0833B041CD9C6D700A83BFE /* mapTest3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapTest3UITests.swift; sourceTree = "<group>"; };
 		A0833B061CD9C6D700A83BFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0D4A9641CE095A00057F891 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		A0FD11ED1D4DCEC500A6B1FC /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pin.png; path = image/pin.png; sourceTree = "<group>"; };
+		A0FD11EE1D4DCEC500A6B1FC /* pin2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pin2.png; path = image/pin2.png; sourceTree = "<group>"; };
 		A1213F8BE449DDAC9A1C1BA6 /* Pods_mapTest3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_mapTest3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FED613DEDF005016544621F5 /* Pods-mapTest3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mapTest3.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mapTest3/Pods-mapTest3.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -243,6 +247,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A07816F61D4B3008004D2F8D /* image */ = {
+			isa = PBXGroup;
+			children = (
+				A0FD11ED1D4DCEC500A6B1FC /* pin.png */,
+				A0FD11EE1D4DCEC500A6B1FC /* pin2.png */,
+			);
+			name = image;
+			sourceTree = "<group>";
+		};
 		A0833AD81CD9C6D600A83BFE = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +283,7 @@
 		A0833AE31CD9C6D600A83BFE /* mapTest3 */ = {
 			isa = PBXGroup;
 			children = (
+				A07816F61D4B3008004D2F8D /* image */,
 				A0650F951D31E7A900CF2DAE /* video_icon.png */,
 				A0650F961D31E7A900CF2DAE /* audio_icon.png */,
 				A0833AE41CD9C6D600A83BFE /* AppDelegate.swift */,
@@ -536,7 +550,9 @@
 				A0650F971D31E7A900CF2DAE /* video_icon.png in Resources */,
 				A0833AEF1CD9C6D600A83BFE /* LaunchScreen.storyboard in Resources */,
 				A0650F981D31E7A900CF2DAE /* audio_icon.png in Resources */,
+				A0FD11EF1D4DCEC500A6B1FC /* pin.png in Resources */,
 				A0833AEC1CD9C6D600A83BFE /* Assets.xcassets in Resources */,
+				A0FD11F01D4DCEC500A6B1FC /* pin2.png in Resources */,
 				A0833AEA1CD9C6D600A83BFE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,10 +12,12 @@ import MapKit
 class POI: NSObject, MKAnnotation {
     let title: String?
     let coordinate: CLLocationCoordinate2D
+    let sequence: Int
 
-    init(title: String, coordinate:CLLocationCoordinate2D){
+    init(title: String, coordinate:CLLocationCoordinate2D, sequence: Int){
         self.title = title
         self.coordinate = coordinate
+        self.sequence = sequence
         
         super.init()
     }

@@ -11,19 +11,18 @@ import Alamofire
 
 class SendHttpRequest {
     
-    var keyData = NSData()
-    
-    func GetDataFromURL(url: String) {
+    func GetDataFromURL(url: String, key: NSData, completion:(String?) -> Void) {
         Alamofire.request(.GET, url)
             .validate()
             .responseString{ responseData in
                 let getData = String(responseData.result.value!)
-                
-    
+                let decrypted = AESCrypt.decrypt(getData, password: key)
+                let JSONString = AESCrypt.contentFilter(decrypted)
+                completion(JSONString)
         }
     }
 
-    func GetKeyFromURL(url: String){
+    func GetKeyFromURL(url: String, completion:(NSData?) -> Void){
         Alamofire.request(.GET, url)
             .validate()
             .responseString{ responseIp in
@@ -33,9 +32,8 @@ class SendHttpRequest {
                     UInt8(IPArr[3])!, UInt8(IPArr[2])!, UInt8(IPArr[1])!, UInt8(IPArr[0])!,
                     UInt8(IPArr[1])!, UInt8(IPArr[3])!, UInt8(IPArr[0])!, UInt8(IPArr[2])!,
                     UInt8(IPArr[2])!, UInt8(IPArr[1])!, UInt8(IPArr[0])!, UInt8(IPArr[3])!]
-                self.keyData = NSData(bytes: key as [UInt8], length:16)
-                print("key = ")
-                print(self.keyData)
+                let keyData = NSData(bytes: key as [UInt8], length:16)
+                completion(keyData)
         }
     }
 }
