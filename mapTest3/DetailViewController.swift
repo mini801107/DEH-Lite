@@ -37,9 +37,8 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
         AddressLabel.text = POIinfo["POI_address"].stringValue
         DescriptionLabel.text = POIinfo["POI_description"].stringValue
         
-        let count = POIinfo["PICs"]["count"].stringValue
-        let picArray = POIinfo["PICs"]["pic"].arrayValue
-        let pic_count: Int = Int(count)!
+        let picArray = POIinfo["media_set"].arrayValue
+        let pic_count = picArray.count
         
         //find out width of master view controller
         let downNavigationVC = self.parentViewController as! UINavigationController
@@ -48,8 +47,8 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
         let masterVC = topNavigationVC.topViewController as!MasterViewController
         let masterVC_width = masterVC.view.bounds.size.width
         
-        let mediaType = picArray[0]["media_fmt"].stringValue
-        if mediaType == "1" {  //type 1 -> image
+        let mediaType = picArray[0]["media_type"].stringValue
+        if mediaType == "jpg" {  //type jpg -> image
             
             scrollView.backgroundColor = UIColor.clearColor()
             scrollView.pagingEnabled = true
@@ -59,7 +58,7 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
             var viewSize = CGRectMake(0, 0, self.view.bounds.size.width-masterVC_width, self.view.bounds.size.height/2)
             
             for i in 0 ..< pic_count {
-                let url = picArray[i]["url"].stringValue
+                let url = picArray[i]["media_url"].stringValue
                 let downloadURL = NSURL(string: url)
                 let data = NSData(contentsOfURL: downloadURL!)
                 let image = UIImage(data: data!)!
@@ -78,8 +77,8 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
                 scrollView.addSubview(imgView)
             }
         }
-        else if mediaType == "2" {  //type 2 -> audio
-            let url = picArray[0]["url"].stringValue
+        else if mediaType == "aac" {  //type aac -> audio
+            let url = picArray[0]["media_url"].stringValue
             let fileURL = NSURL(string: url)
             let soundData = NSData(contentsOfURL: fileURL!)
             
@@ -101,8 +100,8 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
             
             scrollView.addSubview(button)
         }
-        else if mediaType == "4" {  //type 4 -> video
-            let url = picArray[0]["url"].stringValue
+        else if mediaType == "mp4" {  //type mp4 -> video
+            let url = picArray[0]["media_url"].stringValue
             self.file_url = NSURL(string: url)!
             
             let img = UIImage(named: "video_icon.png")

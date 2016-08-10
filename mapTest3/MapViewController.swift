@@ -122,109 +122,97 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         /* Send HTTP GET request */
         if searchingType == "景點" {
             self.annotationInfoButton = true
-            let nearby_poi_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/nearbyPOIs_AES.php"
-            var url = nearby_poi_aes_function + "?"
+            let nearby_poi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/pois"
+            var url = nearby_poi_function + "?"
             url += ("lat=" + "\(currentLocation.coordinate.latitude)")
             url += ("&lng=" + "\(currentLocation.coordinate.longitude)")
-            url += ("&dist=" + "\(distance)")
+            url += ("&dis=" + "\(distance)")
             
-            self.sendhttprequest.GetDataFromURL(url, key: self.keyData!){ JSONString in
-                /* plot the POI annotations on map */
-                let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-                let jsonObj = JSON(data: JSONData!)
-                self.dataArray.removeAll()
-                self.dataArray = jsonObj["results"].arrayValue
+            self.sendhttprequest.authorization(){ token in
+                self.sendhttprequest.getNearbyData(url, token: token!){ JSONString in
+                    /* plot the POI annotations on map */
+                    let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
+                    let jsonObj = JSON(data: JSONData!)
+                    self.dataArray.removeAll()
+                    self.dataArray = jsonObj["results"].arrayValue
                 
-                if self.dataArray.count == 0 { return }
-                for i in 0 ..< self.dataArray.count {
-                    let x = self.dataArray[i]
-                    let poi = POI(title: x["POI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:x["latitude"].doubleValue, longitude:x["longitude"].doubleValue), sequence: 0)
-                    self.mapView.addAnnotation(poi)
+                    if self.dataArray.count == 0 { return }
+                    for i in 0 ..< self.dataArray.count {
+                        let x = self.dataArray[i]
+                        let poi = POI(title: x["POI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:x["latitude"].doubleValue, longitude:x["longitude"].doubleValue), sequence: 0)
+                        self.mapView.addAnnotation(poi)
+                    }
+                    
+                    self.delegate?.POIget(JSONString!, searchType: self.searchingType) //send POI data to master view controller
+                    self.submitWindow.hidden = true
+                    
+                    /* zoom in the map and place the firsh POI in center */
+                    let center = CLLocationCoordinate2D(latitude: self.dataArray[0]["latitude"].doubleValue, longitude: self.dataArray[0]["longitude"].doubleValue)
+                    let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                    self.mapView.setRegion(region, animated: true)
                 }
-                
-                self.delegate?.POIget(JSONString!, searchType: self.searchingType) //send POI data to master view controller
-                self.submitWindow.hidden = true
-                
-                /* zoom in the map and place the firsh POI in center */
-                let center = CLLocationCoordinate2D(latitude: self.dataArray[0]["latitude"].doubleValue, longitude: self.dataArray[0]["longitude"].doubleValue)
-                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-                self.mapView.setRegion(region, animated: true)
             }
         }
         else if searchingType == "景線" {
             self.annotationInfoButton = false
-            let nearby_loi_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/nearbyLois_AES.php"
+            let nearby_loi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/lois"
             
-            var url = nearby_loi_aes_function + "?"
+            var url = nearby_loi_function + "?"
             url += ("lat=" + "\(currentLocation.coordinate.latitude)")
             url += ("&lng=" + "\(currentLocation.coordinate.longitude)")
-            url += ("&dist=" + "\(distance)")
   
-            self.sendhttprequest.GetDataFromURL(url, key: self.keyData!){ JSONString in
-                /* plot the first POI annotation in each LOIs on map */
-                let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-                let jsonObj = JSON(data: JSONData!)
-                self.dataArray.removeAll()
-                self.dataArray = jsonObj["results"].arrayValue
-                if self.dataArray.count == 0 { return }
-                            
-                for i in 0 ..< self.dataArray.count {
-                    let id = self.dataArray[i]["routeid"].stringValue
-                    let loi_sequence_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/LOIsequence_AES.php" + "?id=" + id
-                        
-                    self.sendhttprequest.GetDataFromURL(loi_sequence_aes_function, key: self.keyData!){ LoiJSONString in
-                            let LoiJSONData = LoiJSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-                            let LoijsonObj = JSON(data: LoiJSONData!)
-                            let LoidataArray = LoijsonObj["POIsequence"].arrayValue
-                            
-                            let poi = POI(title: self.dataArray[i]["routetitle"].stringValue, coordinate: CLLocationCoordinate2D(latitude:LoidataArray[0]["latitude"].doubleValue, longitude:LoidataArray[0]["longitude"].doubleValue), sequence: 0)
-                            self.mapView.addAnnotation(poi)
-                                        
-                            /* zoom in the map and place the firsh LOI in center */
-                            if i == 0 {
-                                let center = CLLocationCoordinate2D(latitude: LoidataArray[0]["latitude"].doubleValue, longitude: LoidataArray[0]["longitude"].doubleValue)
-                                        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-                                self.mapView.setRegion(region, animated: true)
-                            }
+            self.sendhttprequest.authorization(){ token in
+                self.sendhttprequest.getNearbyData(url, token: token!){ JSONString in
+                    /* plot the first POI annotation in each LOIs on map */
+                    let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
+                    let jsonObj = JSON(data: JSONData!)
+                    self.dataArray.removeAll()
+                    self.dataArray = jsonObj["results"].arrayValue
+                    
+                    if self.dataArray.count == 0 { return }
+                    for i in 0 ..< self.dataArray.count {
+                        let POIset = self.dataArray[i]["POI_set"].arrayValue
+                        let poi = POI(title: self.dataArray[i]["LOI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:POIset[0]["latitude"].doubleValue, longitude:POIset[0]["longitude"].doubleValue), sequence: 0)
+                        self.mapView.addAnnotation(poi)
+                    
+                        /* zoom in the map and place the firsh LOI in center */
+                        if i == 0 {
+                            let center = CLLocationCoordinate2D(latitude: POIset[0]["latitude"].doubleValue, longitude: POIset[0]["longitude"].doubleValue)
+                            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                            self.mapView.setRegion(region, animated: true)
                         }
+                    }
+                    
+                    self.delegate?.LOIget(JSONString!, searchType: self.searchingType) //send LOI data to master view controller
+                    self.submitWindow.hidden = true
                 }
-                            
-                self.delegate?.LOIget(JSONString!, searchType: self.searchingType) //send LOI data to master view controller
-                self.submitWindow.hidden = true
             }
         }
         else if searchingType == "景區" {
             self.annotationInfoButton = false
-            let nearby_loi_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/nearbyAOIs_AES.php"
+            let nearby_loi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/aois"
             
-            var url = nearby_loi_aes_function + "?"
+            var url = nearby_loi_function + "?"
             url += ("lat=" + "\(currentLocation.coordinate.latitude)")
             url += ("&lng=" + "\(currentLocation.coordinate.longitude)")
-            url += ("&dist=" + "\(distance)")
-
-            self.sendhttprequest.GetDataFromURL(url, key: self.keyData!){ JSONString in
-                /* plot the first POI annotation in each AOIs on map */
-                let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-                let jsonObj = JSON(data: JSONData!)
-                self.dataArray.removeAll()
-                self.dataArray = jsonObj["results"].arrayValue
-                if self.dataArray.count == 0 { return }
-                            
-                for i in 0 ..< self.dataArray.count {
-                    let id = self.dataArray[i]["id"].stringValue
-                    let aoi_pois_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/AOI_POIs_AES.php" + "?id=" + id
-
-                    self.sendhttprequest.GetDataFromURL(aoi_pois_aes_function, key: self.keyData!){ AoiJSONString in
-                        let AoiJSONData = AoiJSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-                        let AoijsonObj = JSON(data: AoiJSONData!)
-                        let AoidataArray = AoijsonObj["POIs"].arrayValue
-                                        
-                        let poi = POI(title: self.dataArray[i]["title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:AoidataArray[0]["latitude"].doubleValue, longitude:AoidataArray[0]["longitude"].doubleValue), sequence: 0)
+            
+            self.sendhttprequest.authorization(){ token in
+                self.sendhttprequest.getNearbyData(url, token: token!){ JSONString in
+                    /* plot the first POI annotation in each LOIs on map */
+                    let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
+                    let jsonObj = JSON(data: JSONData!)
+                    self.dataArray.removeAll()
+                    self.dataArray = jsonObj["results"].arrayValue
+                    
+                    if self.dataArray.count == 0 { return }
+                    for i in 0 ..< self.dataArray.count {
+                        let POIset = self.dataArray[i]["POI_set"].arrayValue
+                        let poi = POI(title: self.dataArray[i]["AOI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:POIset[0]["latitude"].doubleValue, longitude:POIset[0]["longitude"].doubleValue), sequence: 0)
                         self.mapView.addAnnotation(poi)
-                                        
-                        /* zoom in the map and place the firsh AOI in center */
+                        
+                        /* zoom in the map and place the firsh LOI in center */
                         if i == 0 {
-                            let center = CLLocationCoordinate2D(latitude: AoidataArray[0]["latitude"].doubleValue, longitude: AoidataArray[0]["longitude"].doubleValue)
+                            let center = CLLocationCoordinate2D(latitude: POIset[0]["latitude"].doubleValue, longitude: POIset[0]["longitude"].doubleValue)
                             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                             self.mapView.setRegion(region, animated: true)
                         }
@@ -277,14 +265,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             
             /* Resize image */
-            let pinImg = UIImage(named: "pin2.png")
-            let size = CGSize(width: 40, height: 40)
-            UIGraphicsBeginImageContext(size)
-            pinImg?.drawInRect(CGRectMake(0, 0, size.width, size.height))
-            let resizedImg = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            view.image = resizedImg
+            let pinImg = UIImage(named: "pin_40.png")
+//            let size = CGSize(width: 40, height: 40)
+//            UIGraphicsBeginImageContext(size)
+//            pinImg?.drawInRect(CGRectMake(0, 0, size.width, size.height))
+//            let resizedImg = UIGraphicsGetImageFromCurrentImageContext()
+//            UIGraphicsEndImageContext()
+            view.image = pinImg
             
+            let size = pinImg!.size
             if annotation.sequence > 0 {
                 let number : NSString = "\(annotation.sequence)"
                 
@@ -298,10 +287,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 pinImg?.drawInRect(CGRectMake(0, 0, size.width, size.height))
                 var rect: CGRect
                 if annotation.sequence >= 10 {
-                    rect = CGRectMake(10, 5, size.width, size.height)
+                    rect = CGRectMake(7, 5, size.width, size.height)
                 }
                 else {
-                    rect = CGRectMake(15, 5, size.width, size.height)
+                    rect = CGRectMake(11, 5, size.width, size.height)
                 }
                 number.drawInRect(rect, withAttributes: textFontAttributes)
                 let numImg : UIImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -395,36 +384,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func selectedLOIfromtable(index: Int){
         infoButton.hidden = false
-        LOIdescription = self.dataArray[index]["routedescription"].stringValue
+        LOIdescription = self.dataArray[index]["LOI_description"].stringValue
         
         self.annotationInfoButton = true
         if self.mapView.annotations.count > 1 {
             self.mapView.removeAnnotations(self.mapView.annotations)
         }
         
-        let id = self.dataArray[index]["routeid"].stringValue
-        let loi_sequence_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/LOIsequence_AES.php" + "?id=" + id
+        let POIset = self.dataArray[index]["POI_set"].arrayValue
+        self.POIinfoArray.removeAll()
+        self.POIinfoArray = [JSON](count:POIset.count, repeatedValue: nil)
         
-        self.sendhttprequest.GetDataFromURL(loi_sequence_aes_function, key: self.keyData!)
-        { LoiJSONString in
-            let LoiJSONData = LoiJSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-            let LoiJSONObj = JSON(data: LoiJSONData!)
-            self.LOIinfoArray.removeAll()
-            self.LOIinfoArray = LoiJSONObj["POIsequence"].arrayValue
+        self.sendhttprequest.authorization(){ token in
+            for i in 0 ..< POIset.count {
+                let id = POIset[i]["id"].stringValue
+                let specific_poi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/pois/search" + "?q=" + id
                 
-            self.POIinfoArray.removeAll()
-            self.POIinfoArray = [JSON](count:self.LOIinfoArray.count, repeatedValue: nil)
-            for i in 0 ..< self.LOIinfoArray.count {
-                let POIid = self.LOIinfoArray[i]["POIid"].stringValue
-                let poi_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/poi_AES.php" + "?id=" + POIid
-                    
-                self.sendhttprequest.GetDataFromURL(poi_aes_function, key: self.keyData!)
-                { PoiJSONString in
+                self.sendhttprequest.getNearbyData(specific_poi_function, token: token!){ PoiJSONString in
                     let PoiJSONData = PoiJSONString!.dataUsingEncoding(NSUTF8StringEncoding)
                     let PoiJSONObj = JSON(data: PoiJSONData!)
                     let PoiJSONArray = PoiJSONObj["results"].arrayValue
                     self.POIinfoArray[i] = PoiJSONArray[0]
-                            
+                    
                     let poi = POI(title: PoiJSONArray[0]["POI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:PoiJSONArray[0]["latitude"].doubleValue, longitude:PoiJSONArray[0]["longitude"].doubleValue), sequence: i+1)
                     self.mapView.addAnnotation(poi)
                     
@@ -433,11 +414,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                         var annotationIndex = Int()
                         for i in 0 ..< self.mapView.annotations.count {
                             if self.mapView.annotations[i].title! == PoiJSONArray[0]["POI_title"].stringValue {
-                                        annotationIndex = i
+                                annotationIndex = i
                                 break
                             }
                         }
-                                
+                        
                         let center = CLLocationCoordinate2D(latitude: PoiJSONArray[0]["latitude"].doubleValue, longitude: PoiJSONArray[0]["longitude"].doubleValue)
                         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
                         self.mapView.setRegion(region, animated: true)
@@ -450,49 +431,41 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func selectedAOIfromtable(index: Int){
         infoButton.hidden = false
-        AOIdescription = self.dataArray[index]["description"].stringValue
-        
+        AOIdescription = self.dataArray[index]["AOI_description"].stringValue
+        print(LOIdescription)
         self.annotationInfoButton = true
         if self.mapView.annotations.count > 1 {
             self.mapView.removeAnnotations(self.mapView.annotations)
         }
         
-        let id = self.dataArray[index]["id"].stringValue
-        let aoi_pois_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/AOI_POIs_AES.php" + "?id=" + id
-        
-        self.sendhttprequest.GetDataFromURL(aoi_pois_aes_function, key: self.keyData!)
-        { AoiJSONString in
-            let AoiJSONData = AoiJSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-            let AoiJSONObj = JSON(data: AoiJSONData!)
-            self.AOIinfoArray.removeAll()
-            self.AOIinfoArray = AoiJSONObj["POIs"].arrayValue
+        let POIset = self.dataArray[index]["POI_set"].arrayValue
+        self.POIinfoArray.removeAll()
+        self.POIinfoArray = [JSON](count:POIset.count, repeatedValue: nil)
+
+        self.sendhttprequest.authorization(){ token in
+            for i in 0 ..< POIset.count {
+                let id = POIset[i]["POI_id"].stringValue
+                let specific_poi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/pois/search" + "?q=" + id
                 
-            self.POIinfoArray.removeAll()
-            self.POIinfoArray = [JSON](count:self.AOIinfoArray.count, repeatedValue: nil)
-            for i in 0 ..< self.AOIinfoArray.count {
-                let POIid = self.AOIinfoArray[i]["POIid"].stringValue
-                let poi_aes_function = "http://deh.csie.ncku.edu.tw/dehencode/json/poi_AES.php" + "?id=" + POIid
-                    
-                self.sendhttprequest.GetDataFromURL(poi_aes_function, key: self.keyData!)
-                { PoiJSONString in
+                self.sendhttprequest.getNearbyData(specific_poi_function, token: token!){ PoiJSONString in
                     let PoiJSONData = PoiJSONString!.dataUsingEncoding(NSUTF8StringEncoding)
                     let PoiJSONObj = JSON(data: PoiJSONData!)
                     let PoiJSONArray = PoiJSONObj["results"].arrayValue
                     self.POIinfoArray[i] = PoiJSONArray[0]
-                            
+                    
                     let poi = POI(title: PoiJSONArray[0]["POI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:PoiJSONArray[0]["latitude"].doubleValue, longitude:PoiJSONArray[0]["longitude"].doubleValue), sequence: 0)
                     self.mapView.addAnnotation(poi)
-                            
+                    
                     /* zoom in the map and place the firsh POI in center */
                     if i == 0 {
                         var annotationIndex = Int()
                         for i in 0 ..< self.mapView.annotations.count {
                             if self.mapView.annotations[i].title! == PoiJSONArray[0]["POI_title"].stringValue {
-                                        annotationIndex = i
+                                annotationIndex = i
                                 break
                             }
                         }
-                                
+                        
                         let center = CLLocationCoordinate2D(latitude: PoiJSONArray[0]["latitude"].doubleValue, longitude: PoiJSONArray[0]["longitude"].doubleValue)
                         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
                         self.mapView.setRegion(region, animated: true)

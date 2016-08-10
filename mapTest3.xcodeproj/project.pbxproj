@@ -29,6 +29,10 @@
 		A0833AEF1CD9C6D600A83BFE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0833AED1CD9C6D600A83BFE /* LaunchScreen.storyboard */; };
 		A0833AFA1CD9C6D700A83BFE /* mapTest3Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0833AF91CD9C6D700A83BFE /* mapTest3Tests.swift */; };
 		A0833B051CD9C6D700A83BFE /* mapTest3UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0833B041CD9C6D700A83BFE /* mapTest3UITests.swift */; };
+		A0CAE14A1D506EC60014CAC6 /* pin_20.png in Resources */ = {isa = PBXBuildFile; fileRef = A0CAE1491D506EC60014CAC6 /* pin_20.png */; };
+		A0CAE1561D506ECA0014CAC6 /* pin_30.png in Resources */ = {isa = PBXBuildFile; fileRef = A0CAE1551D506ECA0014CAC6 /* pin_30.png */; };
+		A0CAE1581D506ECD0014CAC6 /* pin_40.png in Resources */ = {isa = PBXBuildFile; fileRef = A0CAE1571D506ECD0014CAC6 /* pin_40.png */; };
+		A0CAE15A1D506ED00014CAC6 /* pin_50.png in Resources */ = {isa = PBXBuildFile; fileRef = A0CAE1591D506ED00014CAC6 /* pin_50.png */; };
 		A0D4A9801CE097C70057F891 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0D4A96F1CE095A00057F891 /* Alamofire.framework */; };
 		A0D4A9811CE097C70057F891 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A0D4A96F1CE095A00057F891 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A0FD11EF1D4DCEC500A6B1FC /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = A0FD11ED1D4DCEC500A6B1FC /* pin.png */; };
@@ -185,6 +189,10 @@
 		A0833B001CD9C6D700A83BFE /* mapTest3UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mapTest3UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0833B041CD9C6D700A83BFE /* mapTest3UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapTest3UITests.swift; sourceTree = "<group>"; };
 		A0833B061CD9C6D700A83BFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A0CAE1491D506EC60014CAC6 /* pin_20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pin_20.png; path = image/pin_20.png; sourceTree = "<group>"; };
+		A0CAE1551D506ECA0014CAC6 /* pin_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pin_30.png; path = image/pin_30.png; sourceTree = "<group>"; };
+		A0CAE1571D506ECD0014CAC6 /* pin_40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pin_40.png; path = image/pin_40.png; sourceTree = "<group>"; };
+		A0CAE1591D506ED00014CAC6 /* pin_50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pin_50.png; path = image/pin_50.png; sourceTree = "<group>"; };
 		A0D4A9641CE095A00057F891 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		A0FD11ED1D4DCEC500A6B1FC /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pin.png; path = image/pin.png; sourceTree = "<group>"; };
 		A0FD11EE1D4DCEC500A6B1FC /* pin2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pin2.png; path = image/pin2.png; sourceTree = "<group>"; };
@@ -250,6 +258,10 @@
 		A07816F61D4B3008004D2F8D /* image */ = {
 			isa = PBXGroup;
 			children = (
+				A0CAE1491D506EC60014CAC6 /* pin_20.png */,
+				A0CAE1551D506ECA0014CAC6 /* pin_30.png */,
+				A0CAE1571D506ECD0014CAC6 /* pin_40.png */,
+				A0CAE1591D506ED00014CAC6 /* pin_50.png */,
 				A0FD11ED1D4DCEC500A6B1FC /* pin.png */,
 				A0FD11EE1D4DCEC500A6B1FC /* pin2.png */,
 			);
@@ -547,13 +559,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0CAE1561D506ECA0014CAC6 /* pin_30.png in Resources */,
 				A0650F971D31E7A900CF2DAE /* video_icon.png in Resources */,
+				A0CAE15A1D506ED00014CAC6 /* pin_50.png in Resources */,
 				A0833AEF1CD9C6D600A83BFE /* LaunchScreen.storyboard in Resources */,
 				A0650F981D31E7A900CF2DAE /* audio_icon.png in Resources */,
 				A0FD11EF1D4DCEC500A6B1FC /* pin.png in Resources */,
 				A0833AEC1CD9C6D600A83BFE /* Assets.xcassets in Resources */,
+				A0CAE14A1D506EC60014CAC6 /* pin_20.png in Resources */,
 				A0FD11F01D4DCEC500A6B1FC /* pin2.png in Resources */,
 				A0833AEA1CD9C6D600A83BFE /* Main.storyboard in Resources */,
+				A0CAE1581D506ECD0014CAC6 /* pin_40.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@ class MasterViewController: UITableViewController {
     var dataArray = Array<JSON>()
     var mapVC = MapViewController()
     var searchingType = "景點"
+    let sendhttprequest = SendHttpRequest()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,50 @@ class MasterViewController: UITableViewController {
         }
     }
     
+    @IBAction func LoginButtonTapped(sender: AnyObject) {
+        var userTextField: UITextField?
+        var pwdTextField: UITextField?
+        
+        let loginAlert = UIAlertController(title: "會員登入", message: "請輸入帳號及密碼", preferredStyle: .Alert)
+        loginAlert.addAction(UIAlertAction(title: "確認", style: .Default, handler: { action in
+            if userTextField!.text! == "" || pwdTextField!.text! == "" {
+                let alert = UIAlertController(title: "登入失敗", message: "帳號或密碼錯誤", preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            else {
+                self.sendhttprequest.authorization(){ token in
+                    self.sendhttprequest.userLogin(token!, user: userTextField!.text!, pwd: pwdTextField!.text!){ msg in
+                        let msgString = msg!.dataUsingEncoding(NSUTF8StringEncoding)
+                        let JSONObj = JSON(data: msgString!)
+                        let uname = JSONObj["username"].stringValue
+                        if uname != userTextField!.text! {
+                            let alert = UIAlertController(title: "登入失敗", message: "帳號或密碼錯誤", preferredStyle: .Alert)
+                            alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                        else {
+                            let alert = UIAlertController(title: "登入成功", message: uname+", 歡迎回來", preferredStyle: .Alert)
+                            alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                    }
+                }
+            }
+        }))
+        loginAlert.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: nil))
+        loginAlert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            textField.placeholder = "帳號"
+            textField.secureTextEntry = true
+            userTextField = textField
+        })
+        loginAlert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            textField.placeholder = "密碼"
+            textField.secureTextEntry = true
+            pwdTextField = textField
+        })
+        self.presentViewController(loginAlert, animated: true, completion: nil)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -130,7 +175,7 @@ extension MasterViewController: POIgetDelegate {
         
         ListArray.removeAll()
         for i in 0 ..< dataArray.count  {
-            ListArray.append(dataArray[i]["routetitle"].stringValue)
+            ListArray.append(dataArray[i]["LOI_title"].stringValue)
         }
         tableView.reloadData()
     }
@@ -143,7 +188,7 @@ extension MasterViewController: POIgetDelegate {
         
         ListArray.removeAll()
         for i in 0 ..< dataArray.count  {
-            ListArray.append(dataArray[i]["title"].stringValue)
+            ListArray.append(dataArray[i]["AOI_title"].stringValue)
         }
         tableView.reloadData()
     }
