@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Map View Controller-->
@@ -148,16 +149,28 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="O8t-JG-EVU">
-                        <barButtonItem key="rightBarButtonItem" id="U2Z-ZZ-oTp">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HWa-Ty-Pql">
-                                <rect key="frame" x="447" y="7" width="133" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Search"/>
-                                <connections>
-                                    <action selector="searchButtonTapped:" destination="5ia-os-GmQ" eventType="touchUpInside" id="awc-fX-4Pb"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem id="U2Z-ZZ-oTp">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HWa-Ty-Pql">
+                                    <rect key="frame" x="447" y="7" width="133" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="搜尋景點"/>
+                                    <connections>
+                                        <action selector="searchButtonTapped:" destination="5ia-os-GmQ" eventType="touchUpInside" id="awc-fX-4Pb"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem id="HMG-6T-16P">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ygu-5J-yQ9">
+                                    <rect key="frame" x="306" y="7" width="133" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="我的景點"/>
+                                    <connections>
+                                        <action selector="myPoiButtonTapped:" destination="5ia-os-GmQ" eventType="touchUpInside" id="qkf-mx-4Os"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="displayLocationText" destination="OkO-Cz-7sP" id="myH-N0-Sng"/>
@@ -331,51 +344,93 @@
             </objects>
             <point key="canvasLocation" x="3469" y="-213"/>
         </scene>
-        <!--景點/景線/景區列表-->
-        <scene sceneID="Lgx-6C-toI">
+        <!--Master View Controller-->
+        <scene sceneID="meM-Ef-Rws">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="yaN-fH-Hto" customClass="MasterViewController" customModule="mapTest3" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="GTz-us-3Mh">
+                <viewController id="3NV-Lq-tUw" customClass="MasterViewController" customModule="mapTest3" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3q9-iR-dGi"/>
+                        <viewControllerLayoutGuide type="bottom" id="KN9-7F-nxb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="flC-0w-fPE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="vki-9F-LjB" style="IBUITableViewCellStyleDefault" id="oeA-Cw-9i9">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oeA-Cw-9i9" id="SbN-u1-EA4">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vki-9F-LjB">
-                                            <rect key="frame" x="15" y="0.0" width="570" height="43"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="yaN-fH-Hto" id="LVi-PK-Y2y"/>
-                            <outlet property="delegate" destination="yaN-fH-Hto" id="Cnm-R5-83o"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="景點/景線/景區列表" id="hCl-k0-nPP">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="mVL-hG-jy4">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" id="b9j-Sh-6ZZ">
-                                <rect key="frame" x="558" y="11" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kM9-xL-cXe">
+                                <rect key="frame" x="0.0" y="209" width="600" height="391"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="會員專區" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ran-p5-hpQ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="30"/>
+                                <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="k9z-Ef-ofO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3N-9W-K4k">
+                                <rect key="frame" x="0.0" y="93" width="600" height="85"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您現在的身份是：訪客" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nVn-A6-bBH">
+                                        <rect key="frame" x="215" y="32" width="170" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.26114539829026961" green="0.72004655548731211" blue="1" alpha="0.19090757978723405" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="nVn-A6-bBH" firstAttribute="centerX" secondItem="a3N-9W-K4k" secondAttribute="centerX" id="RtZ-8W-RHf"/>
+                                    <constraint firstItem="nVn-A6-bBH" firstAttribute="centerY" secondItem="a3N-9W-K4k" secondAttribute="centerY" id="Wif-JH-NnM"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="景點/景線/景區列表" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ybz-Uc-Nze">
+                                <rect key="frame" x="0.0" y="178" width="600" height="31"/>
+                                <color key="backgroundColor" white="0.89519576149425284" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="sKv-lB-b4i"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9G6-If-EMA">
+                                <rect key="frame" x="568" y="68" width="22" height="22"/>
                                 <connections>
-                                    <action selector="LoginButtonTapped:" destination="yaN-fH-Hto" eventType="touchUpInside" id="18o-3w-4DB"/>
+                                    <action selector="LoginButtonTapped:" destination="3NV-Lq-tUw" eventType="touchUpInside" id="uZd-ET-uV2"/>
                                 </connections>
                             </button>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MCi-Qv-0o8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="9G6-If-EMA" secondAttribute="trailing" constant="-10" id="2G7-G9-Qec"/>
+                            <constraint firstItem="ran-p5-hpQ" firstAttribute="leading" secondItem="flC-0w-fPE" secondAttribute="leading" id="3r4-6t-bsJ"/>
+                            <constraint firstItem="ybz-Uc-Nze" firstAttribute="top" secondItem="ran-p5-hpQ" secondAttribute="bottom" constant="84" id="4rG-vF-yNi"/>
+                            <constraint firstAttribute="trailing" secondItem="ran-p5-hpQ" secondAttribute="trailing" id="79m-Y7-hgP"/>
+                            <constraint firstItem="kM9-xL-cXe" firstAttribute="top" secondItem="ybz-Uc-Nze" secondAttribute="bottom" id="8Za-NT-LAa"/>
+                            <constraint firstItem="ybz-Uc-Nze" firstAttribute="top" secondItem="a3N-9W-K4k" secondAttribute="bottom" id="BaN-Kd-9zn"/>
+                            <constraint firstItem="ran-p5-hpQ" firstAttribute="top" secondItem="3q9-iR-dGi" secondAttribute="bottom" id="CEB-Em-1na"/>
+                            <constraint firstItem="a3N-9W-K4k" firstAttribute="leading" secondItem="ybz-Uc-Nze" secondAttribute="leading" id="Ddc-Ua-fjb"/>
+                            <constraint firstItem="9G6-If-EMA" firstAttribute="centerY" secondItem="ran-p5-hpQ" secondAttribute="centerY" id="RD8-fE-Ok7"/>
+                            <constraint firstItem="ran-p5-hpQ" firstAttribute="trailing" secondItem="a3N-9W-K4k" secondAttribute="trailing" id="TQI-aO-vsl"/>
+                            <constraint firstItem="ran-p5-hpQ" firstAttribute="leading" secondItem="a3N-9W-K4k" secondAttribute="leading" id="b9k-40-6g8"/>
+                            <constraint firstItem="a3N-9W-K4k" firstAttribute="trailing" secondItem="ybz-Uc-Nze" secondAttribute="trailing" id="cJ9-M7-A0u"/>
+                            <constraint firstItem="ybz-Uc-Nze" firstAttribute="leading" secondItem="kM9-xL-cXe" secondAttribute="leading" id="iXN-Ob-2zO"/>
+                            <constraint firstItem="ybz-Uc-Nze" firstAttribute="trailing" secondItem="kM9-xL-cXe" secondAttribute="trailing" id="nSV-Mf-E1W"/>
+                            <constraint firstItem="a3N-9W-K4k" firstAttribute="top" secondItem="3q9-iR-dGi" secondAttribute="bottom" constant="29" id="oSN-Cy-kAC"/>
+                            <constraint firstItem="kM9-xL-cXe" firstAttribute="bottom" secondItem="KN9-7F-nxb" secondAttribute="top" id="sb5-au-Eox"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="RfU-SA-NyV"/>
+                    <connections>
+                        <outlet property="loginButton" destination="9G6-If-EMA" id="Tu6-j9-yx4"/>
+                        <outlet property="tableView" destination="kM9-xL-cXe" id="jWV-3U-eAW"/>
+                        <outlet property="welcomeMsg" destination="nVn-A6-bBH" id="J0e-5N-HYt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d6H-O2-Dfb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4289" y="-905"/>
         </scene>
@@ -388,7 +443,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="yaN-fH-Hto" kind="relationship" relationship="rootViewController" id="PI7-E2-mNZ"/>
+                        <segue destination="3NV-Lq-tUw" kind="relationship" relationship="rootViewController" id="fcV-jW-fHB"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ng0-hK-Vs1" userLabel="First Responder" sceneMemberID="firstResponder"/>

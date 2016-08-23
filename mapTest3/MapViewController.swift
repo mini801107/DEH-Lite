@@ -38,6 +38,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var POIinfoArray = Array<JSON>()
     var AOIinfoArray = Array<JSON>()
     let sendhttprequest = SendHttpRequest()
+    var username: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,6 +108,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.distance = currentValue*1000
         distanceValueText.text = "搜尋半徑 (0-10km) : "+"\(currentValue)"
     }
+    
     @IBAction func searchButtonTapped(sender: AnyObject) {
         submitWindow.hidden = false
         submitWindow.alpha = 0.8
@@ -224,6 +226,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
+    @IBAction func myPoiButtonTapped(sender: AnyObject) {
+        if username == nil {
+            let alert = UIAlertController(title: "您的身份為訪客", message: "請先登入", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        else {
+            
+        }
+    }
     
     // MARK : - Location Delegate Methods
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
@@ -488,10 +500,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         else if searchingType == "景區" {
             performSegueWithIdentifier("MaptoInfoSegue", sender: AOIdescription)
         }
-    }
-    
-    @IBAction func unwindToMap(segue: UIStoryboardSegue) {
-        
     }
     
     // MARK : - Long Press Delegate Methods

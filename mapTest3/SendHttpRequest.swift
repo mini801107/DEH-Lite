@@ -65,7 +65,7 @@ class SendHttpRequest {
         let pwd_md5 = md5(string: pwd)
         let par = ["username": user, "password": pwd_md5]
         let header = [ "Authorization" : "Token " + token ]
-        print(pwd_md5)
+        
         Alamofire.request(.POST, "https://api.deh.csie.ncku.edu.tw/api/v1/users/login", parameters: par, headers: header)
             .validate()
             .responseString{ responseMsg in

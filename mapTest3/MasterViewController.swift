@@ -10,13 +10,18 @@ import UIKit
 import CoreLocation
 import SwiftyJSON
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var welcomeMsg: UILabel!
+    
     var ListArray = Array<String>()
     var dataArray = Array<JSON>()
     var mapVC = MapViewController()
     var searchingType = "景點"
     let sendhttprequest = SendHttpRequest()
+    var username: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +29,12 @@ class MasterViewController: UITableViewController {
         
         mapVC = downNavigationVC.topViewController as! MapViewController
         mapVC.delegate = self
-       
+        mapVC.username = nil
+        tableView.dataSource = self
+        tableView.delegate = self
         
+        let loginImg = UIImage(named: "login.png")
+        loginButton.setImage(loginImg, forState: .Normal)
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,22 +43,22 @@ class MasterViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ListArray.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         cell.textLabel!.text = ListArray[indexPath.row]
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if searchingType == "景點" {
             mapVC.selectedPOIfromtable(indexPath.row)
         }
@@ -62,48 +71,68 @@ class MasterViewController: UITableViewController {
     }
     
     @IBAction func LoginButtonTapped(sender: AnyObject) {
-        var userTextField: UITextField?
-        var pwdTextField: UITextField?
+        if self.username == nil {   // when user does not login
+            var userTextField: UITextField?
+            var pwdTextField: UITextField?
         
-        let loginAlert = UIAlertController(title: "會員登入", message: "請輸入帳號及密碼", preferredStyle: .Alert)
-        loginAlert.addAction(UIAlertAction(title: "確認", style: .Default, handler: { action in
-            if userTextField!.text! == "" || pwdTextField!.text! == "" {
-                let alert = UIAlertController(title: "登入失敗", message: "帳號或密碼錯誤", preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-            }
-            else {
-                self.sendhttprequest.authorization(){ token in
-                    self.sendhttprequest.userLogin(token!, user: userTextField!.text!, pwd: pwdTextField!.text!){ msg in
-                        let msgString = msg!.dataUsingEncoding(NSUTF8StringEncoding)
-                        let JSONObj = JSON(data: msgString!)
-                        let uname = JSONObj["username"].stringValue
-                        if uname != userTextField!.text! {
-                            let alert = UIAlertController(title: "登入失敗", message: "帳號或密碼錯誤", preferredStyle: .Alert)
-                            alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
-                            self.presentViewController(alert, animated: true, completion: nil)
-                        }
-                        else {
-                            let alert = UIAlertController(title: "登入成功", message: uname+", 歡迎回來", preferredStyle: .Alert)
-                            alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
-                            self.presentViewController(alert, animated: true, completion: nil)
+            let loginAlert = UIAlertController(title: "會員登入", message: "請輸入帳號及密碼", preferredStyle: .Alert)
+            loginAlert.addAction(UIAlertAction(title: "確認", style: .Default, handler: { action in
+                if userTextField!.text! == "" || pwdTextField!.text! == "" {
+                    let alert = UIAlertController(title: "登入失敗", message: "帳號或密碼錯誤", preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+                else {
+                    self.sendhttprequest.authorization(){ token in
+                        self.sendhttprequest.userLogin(token!, user: userTextField!.text!, pwd: pwdTextField!.text!){ msg in
+                            let msgString = msg!.dataUsingEncoding(NSUTF8StringEncoding)
+                            let JSONObj = JSON(data: msgString!)
+                            let uname = JSONObj["username"].stringValue
+                            if uname != userTextField!.text! {
+                                let alert = UIAlertController(title: "登入失敗", message: "帳號或密碼錯誤", preferredStyle: .Alert)
+                                alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+                                self.presentViewController(alert, animated: true, completion: nil)
+                            }
+                            else {
+                                let logoutImg = UIImage(named: "logout.png")
+                                self.loginButton.setImage(logoutImg, forState: .Normal)
+                                self.username = uname
+                                self.mapVC.username = uname
+                                self.welcomeMsg.text = "您現在的身份是：" + uname
+                                
+                                let alert = UIAlertController(title: "登入成功", message: uname+", 歡迎回來", preferredStyle: .Alert)
+                                alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+                                self.presentViewController(alert, animated: true, completion: nil)
+                                
+                            }
                         }
                     }
                 }
-            }
-        }))
-        loginAlert.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: nil))
-        loginAlert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-            textField.placeholder = "帳號"
-            textField.secureTextEntry = true
-            userTextField = textField
-        })
-        loginAlert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
-            textField.placeholder = "密碼"
-            textField.secureTextEntry = true
-            pwdTextField = textField
-        })
-        self.presentViewController(loginAlert, animated: true, completion: nil)
+            }))
+            loginAlert.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: nil))
+            loginAlert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                textField.placeholder = "帳號"
+                textField.secureTextEntry = true
+                userTextField = textField
+            })
+            loginAlert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+                textField.placeholder = "密碼"
+                textField.secureTextEntry = true
+                pwdTextField = textField
+            })
+            self.presentViewController(loginAlert, animated: true, completion: nil)
+        }
+        else {  // when user does login
+            let loginImg = UIImage(named: "login.png")
+            self.loginButton.setImage(loginImg, forState: .Normal)
+            self.username = nil
+            self.mapVC.username = nil
+            self.welcomeMsg.text = "您現在的身份是：訪客"
+            
+            let alert = UIAlertController(title: "登出成功", message: "回到訪客身份", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
     }
 
     /*

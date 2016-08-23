@@ -14,11 +14,11 @@ class SplitViewController: UISplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let topNavigationVC = self.viewControllers[0] as! UINavigationController
-        let downNavigationVC = self.viewControllers[1] as! UINavigationController
+        //let topNavigationVC = self.viewControllers[0] as! UINavigationController
+        //let downNavigationVC = self.viewControllers[1] as! UINavigationController
         
-        let masterVC = topNavigationVC.topViewController as! MasterViewController
-        let mapVC = downNavigationVC.topViewController as! MapViewController
+        //let masterVC = topNavigationVC.topViewController as! MasterViewController
+        //let mapVC = downNavigationVC.topViewController as! MapViewController
         //masterVC.filteredString = self.filteredString
         
     }
