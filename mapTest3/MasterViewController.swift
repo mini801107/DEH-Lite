@@ -221,6 +221,12 @@ extension MasterViewController: POIgetDelegate {
         }
         tableView.reloadData()
     }
+    
+    func clearTable()
+    {
+        ListArray.removeAll()
+        tableView.reloadData()
+    }
 }
 
 

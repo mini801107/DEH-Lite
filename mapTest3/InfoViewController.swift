@@ -57,6 +57,7 @@ class InfoViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK : - Peform unwind segue to MapView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "InfotoMapUnwind" {
+            print("unwind")
             if let destinationVC = segue.destinationViewController as? MapViewController {
                 let index = sender!.integerValue
                 destinationVC.selectedPOIfromtable(index)
