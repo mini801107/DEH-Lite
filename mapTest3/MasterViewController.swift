@@ -30,6 +30,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         mapVC = downNavigationVC.topViewController as! MapViewController
         mapVC.delegate = self
         mapVC.username = nil
+        mapVC.password = nil
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -98,6 +99,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                 self.loginButton.setImage(logoutImg, forState: .Normal)
                                 self.username = uname
                                 self.mapVC.username = uname
+                                self.mapVC.password = pwdTextField!.text!
                                 self.welcomeMsg.text = "您現在的身份是：" + uname
                                 
                                 let alert = UIAlertController(title: "登入成功", message: uname+", 歡迎回來", preferredStyle: .Alert)
@@ -127,7 +129,10 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.loginButton.setImage(loginImg, forState: .Normal)
             self.username = nil
             self.mapVC.username = nil
+            self.mapVC.password = nil
             self.welcomeMsg.text = "您現在的身份是：訪客"
+            clearTable()
+            self.mapVC.clearAnnotations()
             
             let alert = UIAlertController(title: "登出成功", message: "回到訪客身份", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))

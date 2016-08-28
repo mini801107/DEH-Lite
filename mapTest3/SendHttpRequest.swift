@@ -12,32 +12,6 @@ import SwiftyJSON
 
 class SendHttpRequest {
     
-    func GetDataFromURL(url: String, key: NSData, completion:(String?) -> Void) {
-        Alamofire.request(.GET, url)
-            .validate()
-            .responseString{ responseData in
-                let getData = String(responseData.result.value!)
-                let decrypted = AESCrypt.decrypt(getData, password: key)
-                let JSONString = AESCrypt.contentFilter(decrypted)
-                completion(JSONString)
-        }
-    }
-
-    func GetKeyFromURL(url: String, completion:(NSData?) -> Void){
-        Alamofire.request(.GET, url)
-            .validate()
-            .responseString{ responseIp in
-                let getIP = String(responseIp.result.value!)
-                let IPArr = getIP.componentsSeparatedByString(".")
-                let key:[UInt8] = [UInt8(IPArr[0])!, UInt8(IPArr[1])!, UInt8(IPArr[2])!, UInt8(IPArr[3])!,
-                    UInt8(IPArr[3])!, UInt8(IPArr[2])!, UInt8(IPArr[1])!, UInt8(IPArr[0])!,
-                    UInt8(IPArr[1])!, UInt8(IPArr[3])!, UInt8(IPArr[0])!, UInt8(IPArr[2])!,
-                    UInt8(IPArr[2])!, UInt8(IPArr[1])!, UInt8(IPArr[0])!, UInt8(IPArr[3])!]
-                let keyData = NSData(bytes: key as [UInt8], length:16)
-                completion(keyData)
-        }
-    }
-    
     func authorization(completion:(String?) -> Void) {
         let par = ["username": "test02", "password": "4d5e2a885578299e5a5902ad295447c6"]
         Alamofire.request(.POST, "https://api.deh.csie.ncku.edu.tw/api/v1/grant", parameters: par)
@@ -70,6 +44,19 @@ class SendHttpRequest {
             .validate()
             .responseString{ responseMsg in
                 let str = String(responseMsg.result.value!)
+                completion(str)
+        }
+    }
+    
+    func getUserData(url: String, token: String, user: String, pwd: String, completion:(String?) -> Void) {
+        let pwd_md5 = md5(string:pwd)
+        let par = ["username": "cmdhuang", "password": "09800aec13cc2ce32c5cd0a05a2cbdbe"]
+        let header = ["Authorization" : "Token " + token]
+        
+        Alamofire.request(.POST, url, parameters: par, headers: header)
+            .validate()
+            .responseString{ responseData in
+                let str = String(responseData.result.value!)
                 completion(str)
         }
     }
