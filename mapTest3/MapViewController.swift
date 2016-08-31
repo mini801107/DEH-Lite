@@ -508,12 +508,24 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     for i in 0 ..< self.POIinfoArray.count {
                         let x = self.POIinfoArray[i]
                         if x["POI_title"].stringValue == String(sender!) {
+                            print(self.POIinfoArray[i]["open"].boolValue)
+                            print(self.POIinfoArray[i]["identifier"].stringValue)
+                            /* show alert when selecting unpublic POI */
+                            if self.POIinfoArray[i]["identifier"].stringValue == "docent" {
+                                if self.POIinfoArray[i]["open"].boolValue == false {
+                                    let alert = UIAlertController(title: "無法觀看該景點內容", message: "欲知詳情請聯絡作者："+self.POIinfoArray[i]["rights"].stringValue, preferredStyle: .Alert)
+                                    alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: nil))
+                                    self.presentViewController(alert, animated: true, completion: nil)
+                                    
+                                    return
+                                }
+                            }
+
                             destinationVC.POIinfo = x
                             break
                         }
                     }
                 }
-                
             }
         }
         
@@ -549,6 +561,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             var annotationIndex = Int()
             for i in 0 ..< self.mapView.annotations.count {
                 if self.mapView.annotations[i].title! == self.POIinfoArray[index]["POI_title"].stringValue {
+                    annotationIndex = i
+                    break
+                }
+                else if self.mapView.annotations[i].title! == self.POIinfoArray[index]["title"].stringValue {
                     annotationIndex = i
                     break
                 }
