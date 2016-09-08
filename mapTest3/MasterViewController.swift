@@ -16,7 +16,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var welcomeMsg: UILabel!
     
-    var ListArray = Array<String>()
+    //var ListArray = Array<String>()
     var dataArray = Array<JSON>()
     var mapVC = MapViewController()
     var searchingType = "景點"
@@ -49,12 +49,40 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ListArray.count
+        return dataArray.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
-        cell.textLabel!.text = ListArray[indexPath.row]
+        //let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+        //cell.textLabel!.text = ListArray[indexPath.row]
+        
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomCell
+        if searchingType == "景點" {
+            cell.title.text = dataArray[indexPath.row]["POI_title"].stringValue
+        }
+        else if searchingType == "景線" {
+            cell.title.text = dataArray[indexPath.row]["LOI_title"].stringValue
+        }
+        else if searchingType == "景區" {
+            cell.title.text = dataArray[indexPath.row]["AOI_title"].stringValue
+        }
+        
+        
+        let identifier = dataArray[indexPath.row]["identifier"].stringValue
+        switch identifier {
+            case "user" :
+                cell.identifier.image = UIImage(named: "user_50")
+                break
+            case "expert" :
+                cell.identifier.image = UIImage(named: "expert_50")
+                break
+            case "docent" :
+                cell.identifier.image = UIImage(named: "docent_50")
+                break
+            default :
+                cell.identifier.image = UIImage(named: "default_50")
+                break
+        }
         
         return cell
     }
@@ -192,12 +220,10 @@ extension MasterViewController: POIgetDelegate {
         self.searchingType = searchType
         let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
         let jsonObj = JSON(data: JSONData!)
-        let dataArray = jsonObj["results"].arrayValue
-        
-        ListArray.removeAll()
-        for i in 0 ..< dataArray.count  {
-            ListArray.append(dataArray[i]["POI_title"].stringValue)
-        }
+
+        dataArray.removeAll()
+        dataArray = jsonObj["results"].arrayValue
+
         tableView.reloadData()
     }
     
@@ -205,12 +231,10 @@ extension MasterViewController: POIgetDelegate {
         self.searchingType = searchType
         let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
         let jsonObj = JSON(data: JSONData!)
-        let dataArray = jsonObj["results"].arrayValue
-        
-        ListArray.removeAll()
-        for i in 0 ..< dataArray.count  {
-            ListArray.append(dataArray[i]["LOI_title"].stringValue)
-        }
+
+        dataArray.removeAll()
+        dataArray = jsonObj["results"].arrayValue
+
         tableView.reloadData()
     }
 
@@ -218,18 +242,16 @@ extension MasterViewController: POIgetDelegate {
         self.searchingType = searchType
         let JSONData = JSONString.dataUsingEncoding(NSUTF8StringEncoding)
         let jsonObj = JSON(data: JSONData!)
-        let dataArray = jsonObj["results"].arrayValue
-        
-        ListArray.removeAll()
-        for i in 0 ..< dataArray.count  {
-            ListArray.append(dataArray[i]["AOI_title"].stringValue)
-        }
+
+        dataArray.removeAll()
+        dataArray = jsonObj["results"].arrayValue
+
         tableView.reloadData()
     }
     
     func clearTable()
     {
-        ListArray.removeAll()
+        dataArray.removeAll()
         tableView.reloadData()
     }
 }

@@ -508,8 +508,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     for i in 0 ..< self.POIinfoArray.count {
                         let x = self.POIinfoArray[i]
                         if x["POI_title"].stringValue == String(sender!) {
-                            print(self.POIinfoArray[i]["open"].boolValue)
-                            print(self.POIinfoArray[i]["identifier"].stringValue)
+                            
                             /* show alert when selecting unpublic POI */
                             if self.POIinfoArray[i]["identifier"].stringValue == "docent" {
                                 if self.POIinfoArray[i]["open"].boolValue == false {

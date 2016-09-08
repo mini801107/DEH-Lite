@@ -16,6 +16,7 @@
 		A04E73221D2E568800707972 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04E73211D2E568700707972 /* VideoPlayerViewController.swift */; };
 		A050C8471D22573C008DB5F0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A050C8461D22573C008DB5F0 /* DetailViewController.swift */; };
 		A050DF341D0533F300A13B07 /* POI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A050DF331D0533F300A13B07 /* POI.swift */; };
+		A05988461D76BFEB00CE6994 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05988451D76BFEA00CE6994 /* CustomCell.swift */; };
 		A0599E0B1D41EEF600A072BF /* SendHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0599E0A1D41EEF600A072BF /* SendHttpRequest.swift */; };
 		A05F19001D60176E00AB809A /* login.png in Resources */ = {isa = PBXBuildFile; fileRef = A05F18FF1D60176E00AB809A /* login.png */; };
 		A05F19021D6017DB00AB809A /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = A05F19011D6017DB00AB809A /* logout.png */; };
@@ -172,6 +173,7 @@
 		A050C8461D22573C008DB5F0 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		A050DF331D0533F300A13B07 /* POI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = POI.swift; sourceTree = "<group>"; };
 		A053F4261CF2EDFC004C9EBA /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		A05988451D76BFEA00CE6994 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		A0599E0A1D41EEF600A072BF /* SendHttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendHttpRequest.swift; sourceTree = "<group>"; };
 		A05F18FF1D60176E00AB809A /* login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = login.png; path = image/login.png; sourceTree = "<group>"; };
 		A05F19011D6017DB00AB809A /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logout.png; path = image/logout.png; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 				A0833AE81CD9C6D600A83BFE /* Main.storyboard */,
 				A050DF331D0533F300A13B07 /* POI.swift */,
 				A0599E0A1D41EEF600A072BF /* SendHttpRequest.swift */,
+				A05988451D76BFEA00CE6994 /* CustomCell.swift */,
 				A06F05361CFE9CB8006051E4 /* SplitViewController.swift */,
 				A06F05261CFE926A006051E4 /* MasterViewController.swift */,
 				A066E5461CFBF2B800C6EEB5 /* TableViewController.swift */,
@@ -657,6 +660,7 @@
 				A04E73221D2E568800707972 /* VideoPlayerViewController.swift in Sources */,
 				A066E5471CFBF2B800C6EEB5 /* TableViewController.swift in Sources */,
 				A06F05371CFE9CB8006051E4 /* SplitViewController.swift in Sources */,
+				A05988461D76BFEB00CE6994 /* CustomCell.swift in Sources */,
 				A0644D9E1D01B52F0038C549 /* MapViewController.swift in Sources */,
 				A0479B191CEDE584002AD304 /* NSData+Base64.m in Sources */,
 				A0479B1A1CEDE584002AD304 /* NSData+CommonCrypto.m in Sources */,

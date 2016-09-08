@@ -364,9 +364,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kM9-xL-cXe">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kM9-xL-cXe">
                                 <rect key="frame" x="0.0" y="209" width="600" height="391"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="50" id="SFl-4w-xf7" customClass="CustomCell" customModule="mapTest3" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SFl-4w-xf7" id="daY-xG-m43">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ArK-s1-RcI">
+                                                    <rect key="frame" x="8" y="5" width="40" height="39"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="40" id="1HV-LJ-a8c"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yWe-MV-5Pf">
+                                                    <rect key="frame" x="56" y="14" width="526" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="yWe-MV-5Pf" firstAttribute="top" secondItem="daY-xG-m43" secondAttribute="topMargin" constant="6" id="Gvc-qm-hf3"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="yWe-MV-5Pf" secondAttribute="trailing" constant="10" id="KZc-Wo-cyJ"/>
+                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="centerY" secondItem="yWe-MV-5Pf" secondAttribute="centerY" id="MEt-Ac-zkh"/>
+                                                <constraint firstItem="yWe-MV-5Pf" firstAttribute="leading" secondItem="ArK-s1-RcI" secondAttribute="trailing" constant="8" symbolic="YES" id="i64-lg-jgz"/>
+                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="leading" secondItem="daY-xG-m43" secondAttribute="leadingMargin" id="ide-TA-3Mp"/>
+                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="top" secondItem="daY-xG-m43" secondAttribute="topMargin" constant="-3" id="oKn-HY-2Em"/>
+                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="centerY" secondItem="daY-xG-m43" secondAttribute="centerY" id="pNJ-99-FoQ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="identifier" destination="ArK-s1-RcI" id="Rqk-Gw-QGz"/>
+                                            <outlet property="title" destination="yWe-MV-5Pf" id="3u7-rs-4yv"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="會員專區" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ran-p5-hpQ">
                                 <rect key="frame" x="0.0" y="64" width="600" height="30"/>
