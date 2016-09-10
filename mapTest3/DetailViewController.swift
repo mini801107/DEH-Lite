@@ -17,16 +17,17 @@ import AVFoundation
 
 class DetailViewController: UIViewController, AVAudioPlayerDelegate {
     
-    //@IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var TitleLabel: UILabel!
     @IBOutlet weak var AddressLabel: UILabel!
-    //@IBOutlet weak var DescriptionLabel: UILabel!
     @IBOutlet weak var DescriptionLabel: UITextView!
+    @IBOutlet weak var AudioNavigationButton: UIButton!
 
     var POIinfo: JSON = nil
     var audioPlayer = AVAudioPlayer()
+    var navigationAudioPlayer = AVAudioPlayer()
     var audioIsPlaying: Bool = false
+    var navigaiotnAudioIsPlaying: Bool = false
     var file_url : NSURL?
     private var ready = false
     
@@ -37,8 +38,8 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
         AddressLabel.text = POIinfo["POI_address"].stringValue
         DescriptionLabel.text = POIinfo["POI_description"].stringValue
         
-        let picArray = POIinfo["media_set"].arrayValue
-        let pic_count = picArray.count
+        let mediaSet = POIinfo["media_set"].arrayValue
+        let media_count = mediaSet.count
         
         //find out width of master view controller
         let downNavigationVC = self.parentViewController as! UINavigationController
@@ -47,8 +48,16 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
         let masterVC = topNavigationVC.topViewController as!MasterViewController
         let masterVC_width = masterVC.view.bounds.size.width
         
-        let mediaType = picArray[0]["media_type"].stringValue
-        if mediaType == "jpg" {  //type jpg -> image
+        AudioNavigationButton.hidden = true
+        
+        let mediaType = mediaSet[0]["media_format"].stringValue
+        if mediaType == "1" {  //type 1 : image(.jpg)
+            var pic_count = 0
+            for j in 0 ..< media_count {
+                if mediaSet[j]["media_format"].stringValue == "1" {
+                    pic_count += 1
+                }
+            }
             
             scrollView.backgroundColor = UIColor.clearColor()
             scrollView.pagingEnabled = true
@@ -58,7 +67,7 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
             var viewSize = CGRectMake(0, 0, self.view.bounds.size.width-masterVC_width, self.view.bounds.size.height/2)
             
             for i in 0 ..< pic_count {
-                let url = picArray[i]["media_url"].stringValue
+                let url = mediaSet[i]["media_url"].stringValue
                 let downloadURL = NSURL(string: url)
                 let data = NSData(contentsOfURL: downloadURL!)
                 let image = UIImage(data: data!)!
@@ -77,13 +86,13 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
                 scrollView.addSubview(imgView)
             }
         }
-        else if mediaType == "aac" {  //type aac -> audio
-            let url = picArray[0]["media_url"].stringValue
+        else if mediaType == "2" {  //type 2 : audio(.acc)
+            let url = mediaSet[0]["media_url"].stringValue
             let fileURL = NSURL(string: url)
             let soundData = NSData(contentsOfURL: fileURL!)
             
             do {
-                self.audioPlayer = try AVAudioPlayer(data: soundData!)
+                audioPlayer = try AVAudioPlayer(data: soundData!)
                 audioPlayer.prepareToPlay()
                 audioPlayer.volume = 1.0
                 audioPlayer.delegate = self
@@ -100,8 +109,8 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
             
             scrollView.addSubview(button)
         }
-        else if mediaType == "mp4" {  //type mp4 -> video
-            let url = picArray[0]["media_url"].stringValue
+        else if mediaType == "4" {  //type 4 : video(mp4)
+            let url = mediaSet[0]["media_url"].stringValue
             self.file_url = NSURL(string: url)!
             
             let img = UIImage(named: "video_icon.png")
@@ -112,6 +121,25 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
             button.addTarget(self, action: #selector(DetailViewController.PlayVideo(_:)), forControlEvents: .TouchUpInside)
             
             scrollView.addSubview(button)
+        }
+        
+        //If there is an audio navigation, display the playing button
+        if mediaSet[media_count-1]["media_format"].stringValue == "8" { //type 8 : audio navigation(.acc)
+            let url = mediaSet[media_count-1]["media_url"].stringValue
+            let fileURL = NSURL(string: url)
+            let soundData = NSData(contentsOfURL: fileURL!)
+            
+            do {
+                navigationAudioPlayer = try AVAudioPlayer(data: soundData!)
+                navigationAudioPlayer.prepareToPlay()
+                navigationAudioPlayer.volume = 1.0
+                navigationAudioPlayer.delegate = self
+            } catch let error as NSError {
+                print("\nError : \n"+error.localizedDescription)
+            }
+            
+            AudioNavigationButton.addTarget(self, action: #selector(DetailViewController.PlayNavigationAudio(_:)), forControlEvents: .TouchUpInside)
+            AudioNavigationButton.hidden = false
         }
     }
 
@@ -137,6 +165,21 @@ class DetailViewController: UIViewController, AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
         audioIsPlaying = false
+    }
+    
+    @IBAction func PlayNavigationAudio(sender: AnyObject?) {
+        if navigaiotnAudioIsPlaying == false {
+            navigationAudioPlayer.play()
+            navigaiotnAudioIsPlaying = true
+        }
+        else {
+            navigationAudioPlayer.pause()
+            navigaiotnAudioIsPlaying = false
+        }
+    }
+    
+    func navigationAudioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+        navigaiotnAudioIsPlaying = false
     }
     
     // MARK : - Peform segue to AKPlayerController

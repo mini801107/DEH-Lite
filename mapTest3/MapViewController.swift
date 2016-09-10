@@ -283,6 +283,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             url += ("&lng=" + "\(coordinate.longitude)")
             url += ("&dis=" + "\(distance)")
             
+
             self.sendhttprequest.authorization(){ token in
                 self.sendhttprequest.getNearbyData(url, token: token!){ JSONString in
                     /* plot the POI annotations on map */
@@ -639,7 +640,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
         self.sendhttprequest.authorization(){ token in
             for i in 0 ..< POIset.count {
-                let id = POIset[i]["POI_id"].stringValue
+                let id = POIset[i]["id"].stringValue
                 let specific_poi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/pois/search" + "?q=" + id
                 
                 self.sendhttprequest.getNearbyData(specific_poi_function, token: token!){ PoiJSONString in
@@ -724,6 +725,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             
             let alert = UIAlertController(title: "選擇搜尋位置", message: "是否搜尋此位置？", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "確認", style: .Default, handler: { action in
+                self.clearAnnotations()
                 self.SearchDataFromServer(locationCoordinate)
             }))
             alert.addAction(UIAlertAction(title: "取消", style: .Cancel, handler: nil))

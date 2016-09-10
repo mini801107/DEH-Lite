@@ -15,6 +15,7 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var welcomeMsg: UILabel!
+    @IBOutlet weak var listTitle: UILabel!
     
     //var ListArray = Array<String>()
     var dataArray = Array<JSON>()
@@ -224,6 +225,7 @@ extension MasterViewController: POIgetDelegate {
         dataArray.removeAll()
         dataArray = jsonObj["results"].arrayValue
 
+        listTitle.text = "景點列表"
         tableView.reloadData()
     }
     
@@ -235,6 +237,7 @@ extension MasterViewController: POIgetDelegate {
         dataArray.removeAll()
         dataArray = jsonObj["results"].arrayValue
 
+        listTitle.text = "景線列表"
         tableView.reloadData()
     }
 
@@ -246,12 +249,14 @@ extension MasterViewController: POIgetDelegate {
         dataArray.removeAll()
         dataArray = jsonObj["results"].arrayValue
 
+        listTitle.text = "景區列表"
         tableView.reloadData()
     }
     
     func clearTable()
     {
         dataArray.removeAll()
+        listTitle.text = "景點/景線/景區列表"
         tableView.reloadData()
     }
 }

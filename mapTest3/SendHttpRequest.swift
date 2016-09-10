@@ -35,6 +35,16 @@ class SendHttpRequest {
         }
     }
     
+    func getNearbyData2(url: String, token: String, completion:(String?, Bool) -> Void) {
+        let header = [ "Authorization" : "Token " + token ]
+        Alamofire.request(.GET, url, headers: header)
+            .validate()
+            .responseString{ responseData in
+                let str = String(responseData.result.value!)
+                completion(str, true)
+        }
+    }
+    
     func userLogin(token: String, user: String, pwd: String, completion:(String?) -> Void) {
         let pwd_md5 = md5(string: pwd)
         let par = ["username": user, "password": pwd_md5]
