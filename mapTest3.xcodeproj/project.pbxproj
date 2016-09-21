@@ -24,6 +24,7 @@
 		A0650F971D31E7A900CF2DAE /* video_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0650F951D31E7A900CF2DAE /* video_icon.png */; };
 		A0650F981D31E7A900CF2DAE /* audio_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A0650F961D31E7A900CF2DAE /* audio_icon.png */; };
 		A066E5471CFBF2B800C6EEB5 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A066E5461CFBF2B800C6EEB5 /* TableViewController.swift */; };
+		A06762F21D87A1D5008D8B08 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06762F11D87A1D5008D8B08 /* LoadingOverlay.swift */; };
 		A06F05271CFE926A006051E4 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06F05261CFE926A006051E4 /* MasterViewController.swift */; };
 		A06F05371CFE9CB8006051E4 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06F05361CFE9CB8006051E4 /* SplitViewController.swift */; };
 		A0833AE51CD9C6D600A83BFE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0833AE41CD9C6D600A83BFE /* AppDelegate.swift */; };
@@ -181,6 +182,7 @@
 		A0650F951D31E7A900CF2DAE /* video_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_icon.png; sourceTree = "<group>"; };
 		A0650F961D31E7A900CF2DAE /* audio_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio_icon.png; sourceTree = "<group>"; };
 		A066E5461CFBF2B800C6EEB5 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		A06762F11D87A1D5008D8B08 /* LoadingOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
 		A06F05261CFE926A006051E4 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		A06F05361CFE9CB8006051E4 /* SplitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		A0833AE11CD9C6D600A83BFE /* mapTest3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mapTest3.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -318,6 +320,7 @@
 				A050C8461D22573C008DB5F0 /* DetailViewController.swift */,
 				A045A66E1D3B555200868E69 /* InfoViewController.swift */,
 				A04E73211D2E568700707972 /* VideoPlayerViewController.swift */,
+				A06762F11D87A1D5008D8B08 /* LoadingOverlay.swift */,
 				A0833AEB1CD9C6D600A83BFE /* Assets.xcassets */,
 				A0833AED1CD9C6D600A83BFE /* LaunchScreen.storyboard */,
 				A0833AF01CD9C6D600A83BFE /* Info.plist */,
@@ -668,6 +671,7 @@
 				A0479B181CEDE584002AD304 /* AESCrypt.m in Sources */,
 				A050DF341D0533F300A13B07 /* POI.swift in Sources */,
 				A0833AE51CD9C6D600A83BFE /* AppDelegate.swift in Sources */,
+				A06762F21D87A1D5008D8B08 /* LoadingOverlay.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

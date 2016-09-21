@@ -46,7 +46,7 @@ class InfoViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
-        cell.textLabel!.text = POIarray[indexPath.row]["POI_title"].stringValue
+        cell.textLabel!.text = POIarray[indexPath.row]["title"].stringValue
         return cell
     }
     
