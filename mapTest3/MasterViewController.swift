@@ -85,6 +85,29 @@ class MasterViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 break
         }
         
+        if searchingType == "景點" {
+            let media_set = dataArray[indexPath.row]["media_set"].arrayValue
+            if media_set != [] {
+                 let media_type: String! = media_set[0]["media_type"].stringValue
+                switch media_type {
+                    case "jpg" :
+                        cell.POIicon.image = UIImage(named: "camera")
+                        break
+                    case "aac" :
+                        cell.POIicon.image = UIImage(named: "headphones")
+                        break
+                    case "mp4" :
+                        cell.POIicon.image = UIImage(named: "video_camera")
+                        break
+                    default :
+                        cell.POIicon.image = nil
+                        break
+                }
+            }
+        }
+        else {
+            cell.POIicon.image = nil
+        }
         return cell
     }
     

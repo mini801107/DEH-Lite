@@ -174,21 +174,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 if self.mapView.annotations.count > 1 {
                     self.mapView.removeAnnotations(self.mapView.annotations)
                 }
-                self.GetUserPoiFromServer(self.currentLocation.coordinate)
+                self.GetUserDataFromServer(self.currentLocation.coordinate)
             }))
             alert.addAction(UIAlertAction(title: "景線", style: .Default, handler: { action in
                 self.searchingType = "景線"
                 if self.mapView.annotations.count > 1 {
                     self.mapView.removeAnnotations(self.mapView.annotations)
                 }
-                self.GetUserLoiFromServer(self.currentLocation.coordinate)
+                self.GetUserDataFromServer(self.currentLocation.coordinate)
             }))
             alert.addAction(UIAlertAction(title: "景區", style: .Default, handler: { action in
                 self.searchingType = "景區"
                 if self.mapView.annotations.count > 1 {
                     self.mapView.removeAnnotations(self.mapView.annotations)
                 }
-                self.GetUserAoiFromServer(self.currentLocation.coordinate)
+                self.GetUserDataFromServer(self.currentLocation.coordinate)
             }))
             
             let popover = alert.popoverPresentationController
@@ -280,6 +280,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     {
         print("latitude = \(coordinate.latitude), longitude = \(coordinate.longitude)\n")
         
+        /* display loading view */
+        let loadingView = UIAlertController(title: nil, message: "Loading ...", preferredStyle: .Alert)
+        loadingView.view.tintColor = UIColor.blackColor()
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRectMake(10, 5, 50, 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        loadingIndicator.startAnimating()
+        loadingView.view.addSubview(loadingIndicator)
+        presentViewController(loadingView, animated: true, completion: nil)
+        
         if searchingType == "景點" {
             self.annotationInfoButton = true
             let nearby_poi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/pois"
@@ -309,6 +319,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                     let center = CLLocationCoordinate2D(latitude: self.dataArray[0]["latitude"].doubleValue, longitude: self.dataArray[0]["longitude"].doubleValue)
                     let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                     self.mapView.setRegion(region, animated: true)
+                    self.dismissViewControllerAnimated(false, completion: nil)
                 }
             }
         }
@@ -342,6 +353,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                         }
                     }
                     self.delegate?.LOIget(JSONString!, searchType: self.searchingType) //send LOI data to master view controller
+                    self.dismissViewControllerAnimated(false, completion: nil)
                 }
             }
         }
@@ -375,6 +387,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                         }
                     }
                     self.delegate?.AOIget(JSONString!, searchType: self.searchingType) //send AOI data to master view controller
+                    self.dismissViewControllerAnimated(false, completion: nil)
                 }
             }
         }
@@ -383,106 +396,116 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
 
     /****************** MARK : - Send HTTP request to get my POI/LOI/AOI data from server *****************/
-    func GetUserPoiFromServer(coordinate: CLLocationCoordinate2D)
+    func GetUserDataFromServer(coordinate: CLLocationCoordinate2D)
     {
-        self.annotationInfoButton = true
-        let nearby_poi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/users/pois"
-        var url = nearby_poi_function + "?"
-        url += ("lat=" + "\(coordinate.latitude)")
-        url += ("&lng=" + "\(coordinate.longitude)")
+        /* display loading view */
+        let loadingView = UIAlertController(title: nil, message: "Loading ...", preferredStyle: .Alert)
+        loadingView.view.tintColor = UIColor.blackColor()
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRectMake(10, 5, 50, 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        loadingIndicator.startAnimating()
+        loadingView.view.addSubview(loadingIndicator)
+        presentViewController(loadingView, animated: true, completion: nil)
+        
+        if searchingType == "景點"{
+            self.annotationInfoButton = true
+            let nearby_poi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/users/pois"
+            var url = nearby_poi_function + "?"
+            url += ("lat=" + "\(coordinate.latitude)")
+            url += ("&lng=" + "\(coordinate.longitude)")
             
-        self.sendhttprequest.authorization(){ token in
-            self.sendhttprequest.getUserData(url, token: token!, user: self.username!, pwd: self.password!){ JSONString in
-                /* plot the POI annotations on map */
-                let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-                let jsonObj = JSON(data: JSONData!)
-                self.dataArray.removeAll()
-                self.dataArray = jsonObj["results"].arrayValue
-                
-                if self.dataArray.count == 0 { return }
-                for i in 0 ..< self.dataArray.count {
-                    let x = self.dataArray[i]
-                    let poi = POI(title: x["POI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:x["latitude"].doubleValue, longitude:x["longitude"].doubleValue), sequence: 0)
-                    self.mapView.addAnnotation(poi)
+            self.sendhttprequest.authorization(){ token in
+                self.sendhttprequest.getUserData(url, token: token!, user: self.username!, pwd: self.password!){ JSONString in
+                    /* plot the POI annotations on map */
+                    let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
+                    let jsonObj = JSON(data: JSONData!)
+                    self.dataArray.removeAll()
+                    self.dataArray = jsonObj["results"].arrayValue
+                    
+                    if self.dataArray.count == 0 { return }
+                    for i in 0 ..< self.dataArray.count {
+                        let x = self.dataArray[i]
+                        let poi = POI(title: x["POI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:x["latitude"].doubleValue, longitude:x["longitude"].doubleValue), sequence: 0)
+                        self.mapView.addAnnotation(poi)
+                    }
+                    
+                    self.delegate?.POIget(JSONString!, searchType: self.searchingType) //send POI data to master view controller
+                    
+                    /* zoom in the map and place the firsh POI in center */
+                    let center = CLLocationCoordinate2D(latitude: self.dataArray[0]["latitude"].doubleValue, longitude: self.dataArray[0]["longitude"].doubleValue)
+                    let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                    self.mapView.setRegion(region, animated: true)
+                    self.dismissViewControllerAnimated(false, completion: nil)
                 }
-                    
-                self.delegate?.POIget(JSONString!, searchType: self.searchingType) //send POI data to master view controller
-                    
-                /* zoom in the map and place the firsh POI in center */
-                let center = CLLocationCoordinate2D(latitude: self.dataArray[0]["latitude"].doubleValue, longitude: self.dataArray[0]["longitude"].doubleValue)
-                let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-                self.mapView.setRegion(region, animated: true)
             }
         }
-    }
-    
-    func GetUserLoiFromServer(coordinate: CLLocationCoordinate2D)
-    {
-        self.annotationInfoButton = false
-        let nearby_loi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/users/lois"
+        else if searchingType == "景線"{
+            self.annotationInfoButton = false
+            let nearby_loi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/users/lois"
             
-        var url = nearby_loi_function + "?"
-        url += ("lat=" + "\(coordinate.latitude)")
-        url += ("&lng=" + "\(coordinate.longitude)")
+            var url = nearby_loi_function + "?"
+            url += ("lat=" + "\(coordinate.latitude)")
+            url += ("&lng=" + "\(coordinate.longitude)")
             
-        self.sendhttprequest.authorization(){ token in
-            self.sendhttprequest.getUserData(url, token: token!, user: self.username!, pwd: self.password!){ JSONString in
-                /* plot the first POI annotation in each LOIs on map */
-                let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-                let jsonObj = JSON(data: JSONData!)
-                self.dataArray.removeAll()
-                self.dataArray = jsonObj["results"].arrayValue
-                
-                if self.dataArray.count == 0 { return }
-                for i in 0 ..< self.dataArray.count {
-                    let POIset = self.dataArray[i]["POI_set"].arrayValue
-                    let poi = POI(title: self.dataArray[i]["LOI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:POIset[0]["latitude"].doubleValue, longitude:POIset[0]["longitude"].doubleValue), sequence: 0)
-                    self.mapView.addAnnotation(poi)
+            self.sendhttprequest.authorization(){ token in
+                self.sendhttprequest.getUserData(url, token: token!, user: self.username!, pwd: self.password!){ JSONString in
+                    /* plot the first POI annotation in each LOIs on map */
+                    let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
+                    let jsonObj = JSON(data: JSONData!)
+                    self.dataArray.removeAll()
+                    self.dataArray = jsonObj["results"].arrayValue
+                    
+                    if self.dataArray.count == 0 { return }
+                    for i in 0 ..< self.dataArray.count {
+                        let POIset = self.dataArray[i]["POI_set"].arrayValue
+                        let poi = POI(title: self.dataArray[i]["LOI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:POIset[0]["latitude"].doubleValue, longitude:POIset[0]["longitude"].doubleValue), sequence: 0)
+                        self.mapView.addAnnotation(poi)
                         
                         /* zoom in the map and place the firsh LOI in center */
-                    if i == 0 {
-                        let center = CLLocationCoordinate2D(latitude: POIset[0]["latitude"].doubleValue, longitude: POIset[0]["longitude"].doubleValue)
-                        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-                        self.mapView.setRegion(region, animated: true)
+                        if i == 0 {
+                            let center = CLLocationCoordinate2D(latitude: POIset[0]["latitude"].doubleValue, longitude: POIset[0]["longitude"].doubleValue)
+                            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                            self.mapView.setRegion(region, animated: true)
+                        }
                     }
+                    self.delegate?.LOIget(JSONString!, searchType: self.searchingType) //send LOI data to master view controller
+                    self.dismissViewControllerAnimated(false, completion: nil)
                 }
-                    
-                self.delegate?.LOIget(JSONString!, searchType: self.searchingType) //send LOI data to master view controller
             }
         }
-    }
-    
-    func GetUserAoiFromServer(coordinate: CLLocationCoordinate2D)
-    {
-        self.annotationInfoButton = false
-        let nearby_aoi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/users/aois"
+        else if searchingType == "景區"{
+            self.annotationInfoButton = false
+            let nearby_aoi_function = "https://api.deh.csie.ncku.edu.tw/api/v1/users/aois"
             
-        var url = nearby_aoi_function + "?"
-        url += ("lat=" + "\(coordinate.latitude)")
-        url += ("&lng=" + "\(coordinate.longitude)")
-        
-        self.sendhttprequest.authorization(){ token in
-            self.sendhttprequest.getUserData(url, token: token!, user: self.username!, pwd: self.password!){ JSONString in
-                /* plot the first POI annotation in each LOIs on map */
-                let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
-                let jsonObj = JSON(data: JSONData!)
-                self.dataArray.removeAll()
-                self.dataArray = jsonObj["results"].arrayValue
+            var url = nearby_aoi_function + "?"
+            url += ("lat=" + "\(coordinate.latitude)")
+            url += ("&lng=" + "\(coordinate.longitude)")
+            
+            self.sendhttprequest.authorization(){ token in
+                self.sendhttprequest.getUserData(url, token: token!, user: self.username!, pwd: self.password!){ JSONString in
+                    /* plot the first POI annotation in each LOIs on map */
+                    let JSONData = JSONString!.dataUsingEncoding(NSUTF8StringEncoding)
+                    let jsonObj = JSON(data: JSONData!)
+                    self.dataArray.removeAll()
+                    self.dataArray = jsonObj["results"].arrayValue
                     
-                if self.dataArray.count == 0 { return }
-                for i in 0 ..< self.dataArray.count {
-                    let POIset = self.dataArray[i]["POI_set"].arrayValue
-                    let poi = POI(title: self.dataArray[i]["AOI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:POIset[0]["latitude"].doubleValue, longitude:POIset[0]["longitude"].doubleValue), sequence: 0)
-                    self.mapView.addAnnotation(poi)
+                    if self.dataArray.count == 0 { return }
+                    for i in 0 ..< self.dataArray.count {
+                        let POIset = self.dataArray[i]["POI_set"].arrayValue
+                        let poi = POI(title: self.dataArray[i]["AOI_title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:POIset[0]["latitude"].doubleValue, longitude:POIset[0]["longitude"].doubleValue), sequence: 0)
+                        self.mapView.addAnnotation(poi)
                         
-                    /* zoom in the map and place the firsh LOI in center */
-                    if i == 0 {
-                        let center = CLLocationCoordinate2D(latitude: POIset[0]["latitude"].doubleValue, longitude: POIset[0]["longitude"].doubleValue)
-                        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-                        self.mapView.setRegion(region, animated: true)
+                        /* zoom in the map and place the firsh LOI in center */
+                        if i == 0 {
+                            let center = CLLocationCoordinate2D(latitude: POIset[0]["latitude"].doubleValue, longitude: POIset[0]["longitude"].doubleValue)
+                            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                            self.mapView.setRegion(region, animated: true)
+                        }
                     }
+                    self.delegate?.AOIget(JSONString!, searchType: self.searchingType) //send AOI data to master view controller
+                    self.dismissViewControllerAnimated(false, completion: nil)
                 }
-                self.delegate?.AOIget(JSONString!, searchType: self.searchingType) //send AOI data to master view controller
             }
         }
     }
@@ -650,7 +673,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.POIinfoArray = POIset
 
         for i in 0 ..< POIset.count {
-            let poi = POI(title: POIset[i]["title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:POIset[i]["latitude"].doubleValue, longitude:POIset[i]["longitude"].doubleValue), sequence: i+1)
+            let poi = POI(title: POIset[i]["title"].stringValue, coordinate: CLLocationCoordinate2D(latitude:POIset[i]["latitude"].doubleValue, longitude:POIset[i]["longitude"].doubleValue), sequence: 0)
             self.mapView.addAnnotation(poi)
             
             /* zoom in the map and place the firsh POI in center */

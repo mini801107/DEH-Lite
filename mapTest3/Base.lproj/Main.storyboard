@@ -402,27 +402,37 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ArK-s1-RcI">
                                                     <rect key="frame" x="8" y="5" width="40" height="39"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="40" id="1HV-LJ-a8c"/>
+                                                        <constraint firstAttribute="width" constant="40" id="6M9-CM-GiT"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yWe-MV-5Pf">
-                                                    <rect key="frame" x="56" y="14" width="526" height="21"/>
+                                                    <rect key="frame" x="56" y="14" width="493" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ykz-6u-PHu">
+                                                    <rect key="frame" x="567" y="12" width="25" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="25" id="gFV-8g-xO9"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="yWe-MV-5Pf" firstAttribute="top" secondItem="daY-xG-m43" secondAttribute="topMargin" constant="6" id="Gvc-qm-hf3"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="yWe-MV-5Pf" secondAttribute="trailing" constant="10" id="KZc-Wo-cyJ"/>
-                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="centerY" secondItem="yWe-MV-5Pf" secondAttribute="centerY" id="MEt-Ac-zkh"/>
-                                                <constraint firstItem="yWe-MV-5Pf" firstAttribute="leading" secondItem="ArK-s1-RcI" secondAttribute="trailing" constant="8" symbolic="YES" id="i64-lg-jgz"/>
-                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="leading" secondItem="daY-xG-m43" secondAttribute="leadingMargin" id="ide-TA-3Mp"/>
-                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="top" secondItem="daY-xG-m43" secondAttribute="topMargin" constant="-3" id="oKn-HY-2Em"/>
-                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="centerY" secondItem="daY-xG-m43" secondAttribute="centerY" id="pNJ-99-FoQ"/>
+                                                <constraint firstItem="Ykz-6u-PHu" firstAttribute="leading" secondItem="yWe-MV-5Pf" secondAttribute="trailing" constant="18" id="0fH-lf-PuC"/>
+                                                <constraint firstItem="Ykz-6u-PHu" firstAttribute="trailing" secondItem="daY-xG-m43" secondAttribute="trailingMargin" id="OBx-LF-zF2"/>
+                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="centerY" secondItem="yWe-MV-5Pf" secondAttribute="centerY" id="TOP-hr-KQ7"/>
+                                                <constraint firstItem="yWe-MV-5Pf" firstAttribute="centerY" secondItem="Ykz-6u-PHu" secondAttribute="centerY" id="ZHe-6N-jYI"/>
+                                                <constraint firstItem="yWe-MV-5Pf" firstAttribute="top" secondItem="daY-xG-m43" secondAttribute="topMargin" constant="6" id="dW6-eR-lhO"/>
+                                                <constraint firstItem="yWe-MV-5Pf" firstAttribute="leading" secondItem="ArK-s1-RcI" secondAttribute="trailing" constant="8" symbolic="YES" id="myx-rI-2eQ"/>
+                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="top" secondItem="daY-xG-m43" secondAttribute="topMargin" constant="-3" id="r3p-u5-H5u"/>
+                                                <constraint firstItem="Ykz-6u-PHu" firstAttribute="top" secondItem="daY-xG-m43" secondAttribute="topMargin" constant="4" id="spO-E9-f0D"/>
+                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="leading" secondItem="daY-xG-m43" secondAttribute="leadingMargin" id="xXW-ZT-28y"/>
+                                                <constraint firstItem="ArK-s1-RcI" firstAttribute="centerY" secondItem="daY-xG-m43" secondAttribute="centerY" id="yyZ-wb-Q4z"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="POIicon" destination="Ykz-6u-PHu" id="IED-jw-BZS"/>
                                             <outlet property="identifier" destination="ArK-s1-RcI" id="Rqk-Gw-QGz"/>
                                             <outlet property="title" destination="yWe-MV-5Pf" id="3u7-rs-4yv"/>
                                         </connections>
